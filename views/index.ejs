@@ -42,14 +42,14 @@
 			io = io.connect();
 			io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
 
-			function na() {
-				io.emit('signal',{"type":"user_here", "message":"Are you ready for a call?", "room":SIGNAL_ROOM});
-			}
+			// function na() {
+			// 	io.emit('signal',{"type":"user_here", "message":"Are you ready for a call?", "room":SIGNAL_ROOM});
+			// }
 			
-			document.getElementById("myBtn").addEventListener("click", function(){
+			// document.getElementById("myBtn").addEventListener("click", function(){
 
 				io.emit('signal',{"type":"user_here", "message":"Are you ready for a call?", "room":SIGNAL_ROOM});
-			});
+			// });
 			
 			
 			io.on('signaling_message', function(data) {
