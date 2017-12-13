@@ -1,10 +1,32 @@
 {
-	"name": "intro-webrtc",
-	"version": "0.0.1",
-	"private": true,
-	"dependencies": {
-		"express": "4.x",
-		"ejs": "2.x",
-		"express.io": "1.x"
-	}
+  "name": "hamdard-opc-e-doctor",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "coffee-script": "^1.12.7",
+    "connect": "^3.6.5",
+    "ejs": "2.x",
+    "express": "4.x",
+    "express.io": "1.x"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "description": "University Project",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/engrrbilal/hamdard-opc-e-doctor.git"
+  },
+  "keywords": [
+    "hamdard-opc",
+    "e-doctor"
+  ],
+  "author": "Muhammad Bilal,Nafil Ahmed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/engrrbilal/hamdard-opc-e-doctor/issues"
+  },
+  "homepage": "https://github.com/engrrbilal/hamdard-opc-e-doctor#readme"
 }
