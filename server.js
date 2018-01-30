@@ -10,6 +10,10 @@ app.get('/', function(req, res){
 	res.render('index.ejs');
 });
 
+app.get('/video', function(req, res){
+	res.render('video.ejs');
+});
+
 app.listen(PORT);
 
 app.io.route('ready', function(req) {
@@ -35,5 +39,10 @@ app.io.route('signal', function(req) {
     });
 })
 
-
-
+app.io.route('win', function(req) {
+	//Note the use of req here for broadcasting so only the sender doesn't receive their own messages
+	req.io.room(req.data.room).broadcast('window', {
+        type: req.data.type,
+		message: req.data.message
+    });
+})
