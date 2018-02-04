@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>Hamdar OPC</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script> -->
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+    <!-- <script src="js/custom.js"></script> -->
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+	<section id="bar" class="bar">
+		<div class="bg-color">
+			<nav class="navbar navbar-default navbar-fixed-top ">
+			  <div class="container">
+			    <div class="navbar-header">
+			      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>                        
+			      </button>
+			      <a class="navbar-brand" href="/"><img src="img/Hamdard.png" class="img-responsive" style="height: 50px; width:90px; margin-top: 0+px;"></a>
+			    </div>
+			    <div class="collapse navbar-collapse" id="myNavbar">
+			      <ul class="nav navbar-nav navbar-right">
+					  <% if (locals.user) { %>	
+						<li><a href="/"><span class="glyphicon glyphicon-user"></span> <%= user._id %></a></li>
+						<li><a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>				
+					<% } %>
+			      </ul>
+			    </div>
+			  </div>
+			</nav>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-3" ></div>
+					<div class="col-sm-6" 
+					style=" margin-top: 100px;">
+						<div class="chatbox" id="chatbox">
+							<h1>Hamdard Chat-Box</h1>
+							<div id="chat-window">
+								<div id="output"></div>
+							</div>
+				            <input id="handle" type="text" value="<%= user.username %>" />
+				            <input id="message" type="text" placeholder="Message" />
+				            <button id="send"><strong>Send</strong> </button>
+				            <button id="myBtn"> <strong>Vedio Call</strong></button>
+						</div>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+	        </div>	
+		</div>
+			
+	</section>
+	<section>
+	</section>
+	<footer id="footer">
+		<div class="top-footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-sm-4 marb20">
+						<div class="ftr-tle">
+							<h4 class="white no-padding">About Us</h4>
+						</div>
+						<div class="info-sec">
+							<p>Praesent convallis tortor et enim laoreet, vel consectetur purus latoque penatibus et dis parturient.</p>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 marb20">
+						<div class="ftr-tle">
+							<h4 class="white no-padding">Quick Links</h4>
+						</div>
+						<div class="info-sec">
+							<ul class="quick-info">
+								<li><a href="index.html"><i class="fa fa-circle"></i>Home</a></li>
+								<li><a href="#service"><i class="fa fa-circle"></i>Service</a></li>
+								<li><a href="#contact"><i class="fa fa-circle"></i>Appointment</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer-line">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-center">
+						© Copyright Hamdard University
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<script>
+		// var a = '<%= locals.docname %>';
+		// console.log(a);
+		var myName = document.querySelector("#handle");
+		var myMessage = document.querySelector("#message");
+		var sendMessage = document.querySelector("#send");
+		var chatArea = document.querySelector("#output");
+		var Vedio = document.querySelector("#myBtn");
+		var ROOM = "<%= locals.docid %>";
+		var SIGNAL_ROOM = "<%= locals.docid %>";
+				
+		io = io.connect();
+		io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
+		io.emit('request', {"message":"requesting to doctor", "room":ROOM});
+		
+		// io.on('announce', function(data) {
+		// 	displayMessage(data.message);
+		// });
+		
+		io.on('message', function(data) {
+			displayMessage(data.author + ": " + data.message);
+		});
+
+		io.on('window', function(data) {
+			window.open("/video?q=<%= locals.docid %>", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=600");
+		});
+		
+		sendMessage.addEventListener('click', function(ev){
+			io.emit('send', {"author":myName.value, "message":myMessage.value, "room":ROOM});
+			ev.preventDefault();
+		}, false);
+		
+		Vedio.addEventListener('click', function(ev){
+			io.emit('win', {"author":myName.value, "message":"open new window on client", "room":ROOM});
+			 window.open("/video?q=<%= locals.docid %>", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=400,width=500,height=600");
+			ev.preventDefault();
+		}, false);
+
+		function displayMessage(message) {
+			chatArea.innerHTML = chatArea.innerHTML + "<br/>" + message;
+		}
+		// $(document).ready(function(){
+		// 	io.emit('send', {"author":'<%= locals.docname %>', "message":"hello there ", "room":ROOM});
+		// });
+	</script>
+</body>
+</html>

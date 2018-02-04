@@ -1,0 +1,150 @@
+.navbar-default{
+	border: 0px;
+	margin: 0px;
+	background-color: transparent; 
+	padding-bottom: 0px;
+
+}
+
+.navbar-nav{
+	/*color:red;*/
+	font-size: 20px;
+	margin-top: 10px;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+    color:  #006400;
+    text-transform: uppercase;
+    background-color: RGBA(204,255,153,0.41);
+}
+.navbar-default .navbar-nav > li > a
+{
+	color: #006400;
+	text-transform: uppercase;
+	font-size: 18px;
+	font-weight: bold;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus
+{
+	color:#006400;
+    text-transform: uppercase;
+    background-color: rgba(204,255,153,0.41);
+}
+#bar{
+	background: url('../img/bg-banner.jpg') no-repeat fixed;
+	background-size: cover;
+
+	min-height: 750px;
+	position: relative;
+}
+.bg-color{
+	background-color: RGBA(204,255,153,0.4);
+	min-height: 750px;
+}
+
+#banner-text h1{
+	font-size: 40px;
+	font-weight: bold;
+	color:white;
+}
+#banner-text{
+	text-align: center;
+	font-size: 20px;
+	margin-top: 130px;
+	color:#006400;
+}
+
+#banner-text form{
+	margin-top: 20px;
+}
+
+.patient-bar .navbar-default{
+	/*border:2px red solid;*/
+	padding-bottom: 5px;
+	background: rgba(28,74,90, 0.7);
+}
+
+.doctor-team{
+	margin-top: 70px;
+}
+
+#doctor-team h2{
+	/*color:#006400;*/
+	font-weight: bold;
+}
+.botm-line{
+	/*border:2px red solid;*/
+	height: 2px;
+	background-color:#ffb737;
+	width:80px;
+	position: relative;
+	margin: 20px 0 20px 0;
+}
+
+#chatbox h1{
+    color:  #006400 ;
+    /*padding-bottom: 20px;*/
+/*border-bottom: 2px #006400 solid;    */
+}
+
+#chatbox{
+border: 2px #006400 solid    
+}
+
+#chat-window{
+    border-top: 2px #006400 solid;
+    border-bottom:2px #006400 solid; 
+    /*border: 2px #006400 solid;*/
+    height: 400px;
+    overflow: auto;
+    background: #f9f9f9;
+
+}
+
+#output p{
+    padding: 14px 0px;
+    margin: 0 20px;
+    border-bottom: 1px solid #e9e9e9;
+    color: #555;
+}
+
+#feedback p{
+    color: #aaa;
+    padding: 14px 0px;
+    margin: 0 20px;
+}
+
+#output strong{
+    color: #575ed8;
+}
+
+.chatbox label{
+    box-sizing: border-box;
+    display: block;
+    padding: 10px 20px;
+}
+
+.chatbox input{
+    border-bottom:2px #006400 solid;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    /*background: red;*/
+    /*border: 2px #006400 solid;*/
+    display: block;
+    width: 100%;
+    /*background: red;*/
+    /*border-bottom: 1px solid #006400;*/
+    font-family: Nunito;
+    font-size: 20px;
+}
+
+.chatbox button{
+    border-bottom:2px #006400 solid;
+    background: rgb(46,139,87);
+    color: #006400;
+    font-size: 20px;
+    font-weight: bold;
+    /*border: 2px #006400 solid;*/
+    padding: 12px 0;
+    width: 100%;
+    /*border-radius: 0 0 2px 2px;*/
+}

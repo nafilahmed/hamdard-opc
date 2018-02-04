@@ -3,17 +3,25 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "coffee-script": "^1.12.7",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "coffe-script": "0.0.1-security",
     "connect": "^3.6.5",
-    "ejs": "2.x",
-    "express": "4.x",
-    "express.io": "1.x"
+    "connect-flash": "^0.1.1",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
+    "express.io": "^1.1.13",
+    "mongoose": "^5.0.0-rc1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node app.js"
   },
   "description": "University Project",
-  "main": "server.js",
+  "main": "app.js",
   "devDependencies": {},
   "repository": {
     "type": "git",
@@ -26,7 +34,7 @@
   "author": "Muhammad Bilal,Nafil Ahmed",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/engrrbilal/hamdard-opc-e-doctor/issues"
+    "url": "https://github.com/engrrbilal/hamdard-opc/issues"
   },
-  "homepage": "https://github.com/engrrbilal/hamdard-opc-e-doctor#readme"
+  "homepage": "https://github.com/engrrbilal/hamdard-opc#readme"
 }

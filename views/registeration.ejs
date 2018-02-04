@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hamdar E-Doctor</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<section id="bar" class="bar"> 
+	<nav class="navbar navbar-default navbar-fixed-top ">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>                        
+	      </button>
+	      <a class="navbar-brand" href="/"><img src="img/Hamdard.png" class="img-responsive" style="height: 50px; width:90px; margin-top: 0+px;"></a>
+	    </div>
+	    <div class="collapse navbar-collapse" id="myNavbar">
+	      <ul class="nav navbar-nav navbar-right">
+	      	<li class="dropdown">
+	          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-log-in"></span> Login<span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	            <li><a href="/login">Paitent</a></li>
+	            <li><a href="/login">Doctor</a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+	<div class="bg-color" >	
+		<div class="container">
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-8">
+					<div class="banner-text" id="banner-text" >
+						
+						<img src="img/Hamdard.png">
+						<% if (locals.errors) { 
+							errors.forEach(function(val){ %>
+								<div class="alert alert-danger">
+									<p><strong>Error:</strong><%= val.username %></p>
+								</div>
+						<% });} %>
+
+						<form class="form-horizontal" method="POST" action="/registeration">
+							<div class="form-group">
+								<label class="control-label col-sm-5" for="username">User name:</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="username" placeholder="Enter user name" name="username" value="<%= locals.username %>" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-5" for="email">Email:</label>
+								<div class="col-sm-4">
+									<input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="<%= locals.email %>" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-5" for="password">Password:</label>
+								<div class="col-sm-4">          
+									<input type="password" class="form-control" id="password" placeholder="Enter password" name="password" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-5" for="password2">Conform Password:</label>
+								<div class="col-sm-4">          
+									<input type="password" class="form-control" id="password2" placeholder="Re-enter password" name="password2" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-5" for="cat">Select Your category</label>
+								<div class="col-sm-4">          
+									<select class="form-control" name="cat" id="cat">
+							        	<option value="Patient">Patient</option>
+							        	<option value="Doctor">Doctor</option>
+							    	</select>
+								</div>
+							</div>
+							<div class="form-group">        
+								<div class="col-sm-offset-1 col-sm-10">
+									<button type="submit" class="btn btn-success">Sign Up</button>
+								</div>
+							</div>
+							<div class="form-group">        
+								<div class="col-sm-offset-2 col-sm-10"></div>
+						    </div>
+						</form>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+</section>
+
+	<footer id="footer">
+		<div class="top-footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-sm-4 marb20">
+							<div class="ftr-tle">
+								<h4 class="white no-padding">About Us</h4>
+							</div>
+							<div class="info-sec">
+								<p>Praesent convallis tortor et enim laoreet, vel consectetur purus latoque penatibus et dis parturient.</p>
+							</div>
+					</div>
+					<div class="col-md-4 col-sm-4 marb20">
+						<div class="ftr-tle">
+							<h4 class="white no-padding">Quick Links</h4>
+						</div>
+						<div class="info-sec">
+							<ul class="quick-info">
+								<li><a href="index.html"><i class="fa fa-circle"></i>Home</a></li>
+								<li><a href="#service"><i class="fa fa-circle"></i>Service</a></li>
+								<li><a href="#contact"><i class="fa fa-circle"></i>Appointment</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer-line">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-center">
+						© Copyright Hamdard University
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>	
+</body>
+</html>

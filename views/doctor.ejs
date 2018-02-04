@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hamdar E-Doctor</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+<section id="patient-bar" class="patient-bar">
+	<!-- <div class="bg-color" id="bg-color" ></div> -->
+	<nav class="navbar navbar-default navbar-fixed-top ">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>                        
+	      </button>
+	      <a class="navbar-brand" href="/"><img src="img/Hamdard.png" class="img-responsive" style="height: 50px; width:90px; margin-top: 0+px;"></a>
+	    </div>
+	    <div class="collapse navbar-collapse" id="myNavbar">
+	      <ul class="nav navbar-nav navbar-right">
+	      	<% if (locals.user) { %>
+	      		<li><a href="/"><span class="glyphicon glyphicon-user"></span> <%= user._id %></a></li>	
+				<li><a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>				
+			<% } %>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+</section>
+
+<section id="doctor-team" class="doctor-team">
+	<div class="container">
+		<div class="jumbotron">
+			<h1>Welcome Dr.<%= user.username %></h1> 
+			<p>Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile-first projects on the web.</p> 
+		</div>
+	</div>
+	<div id="myModal" class="modal fade" role="dialog"  >
+	  <div class="modal-dialog"  >
+	    <div class="modal-content" style="text-align: center;">
+	      <div class="modal-body" style="background: rgba(28,74,90, 0.7); color:#fff;" >
+	        <p>You Have to Check a patient</p>
+	        <a href="/chat?id=<%= user._id %>" class="btn btn-success"><strong>Ok</strong></a>
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</section>
+
+<footer id="footer">
+	<div class="top-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-sm-4 marb20">
+						<div class="ftr-tle">
+							<h4 class="white no-padding">About Us</h4>
+						</div>
+						<div class="info-sec">
+							<p>Praesent convallis tortor et enim laoreet, vel consectetur purus latoque penatibus et dis parturient.</p>
+						</div>
+				</div>
+				<div class="col-md-4 col-sm-4 marb20">
+					<div class="ftr-tle">
+						<h4 class="white no-padding">Quick Links</h4>
+					</div>
+					<div class="info-sec">
+						<ul class="quick-info">
+							<li><a href="index.html"><i class="fa fa-circle"></i>Home</a></li>
+							<li><a href="#service"><i class="fa fa-circle"></i>Service</a></li>
+							<li><a href="#contact"><i class="fa fa-circle"></i>Appointment</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer-line">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					© Copyright Hamdard University
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<script>
+	var ROOM = "<%= user._id %>";
+	var SIGNAL_ROOM = "<%= user._id %>";
+	// var ROOM = "chat3";
+	// var SIGNAL_ROOM = "signal_room3";
+	io = io.connect();
+	io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
+	io.on('request', function(data) {
+		$("#myModal").modal();
+	});
+	
+</script>	
+</body>
+</html>	
+	<h3>Isset condition</h3>
+	<% if (locals.username) { %>
+    	<h5 style="color:red;"><%= username %></h5>
+    <% }else{ %>
+    	<h3>no username</h3>
+	<% } %>
