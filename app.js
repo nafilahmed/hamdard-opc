@@ -6,14 +6,17 @@ const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const passport = require('passport');
 const mongoose = require('mongoose');
+var fs = require('fs');
 
 const app = express();
 app.http().io();
 
 // Load User Model
 require('./models/Users');
+// Load chat model
+require('./models/chatData');
 const Users = mongoose.model('users');
-
+const chatData = mongoose.model('chatData');
 // Passport Config
 require('./config/passport')(passport);
 
@@ -70,6 +73,7 @@ app.get('/login', (req, res) => {
 //Patient Route
 app.get('/patient', (req, res) => {
   res.render('patient');
+  
 });
 //Registration Route
 app.get('/registeration', (req, res) => {
@@ -82,7 +86,6 @@ app.get('/user', (req, res) => {
 			Users.find({"category": "Doctor"})
 			.then(doctors => {
 				if(doctors){
-					//errors.push({text:'Email already exits'});
 					res.render('user',{
 						doctors : doctors,
 					});
@@ -112,26 +115,34 @@ app.get('/user', (req, res) => {
 //chat/websocket route
 app.get('/chat', (req, res) => {
 	if (req.user) {
-		Users.findById(req.param('id'), function (err, doc){
+		Users.findById(req.param('id').split('-')[0], function (err, doc){
+			if (!doc) { doc = {} }
 			res.render('chat',{
 				docname : doc.username,
-				docid: req.param('id')
+				id: req.param('id')
 			});
 		});
+		// fs.readFile('chat1.txt', function(err, data) {
+		// 	res.writeHead(200, {'Content-Type': 'text/html'});
+		// 	res.write(data);
+		// 	res.end();
+		// 	console.log("reading file")
+		//   });
 	}
 	else{
 		res.render('login',{
 			error : "Login First"
-		});		
+		});
 	} 
 });
 //video/WebRTC route
 app.get('/video', function(req, res){
 	if (req.user) {
-		Users.findById(req.param('q'), function (err, doc){
+		Users.findById(req.param('q').split('-')[0], function (err, doc){
+			if (!doc) { doc = {} }
 			res.render('video',{
 				docname : doc.username,
-				docid: req.param('q')
+				id: req.param('q')
 			});
 		});
 	}
@@ -230,6 +241,12 @@ app.listen(port, () =>{
 
 app.io.route('ready', function(req) {
 	req.io.join(req.data.chat_room);
+	chatData.find({room: req.data.chat_room}).then(result => {
+		console.log('data: ', result)
+		result.map(a => {
+			req.io.emit('message', a)
+		})
+	});
 	req.io.join(req.data.signal_room);
 	// app.io.room(req.data).broadcast('announce', {
 	// 	message: 'New client in the ' + req.data + ' room.'
@@ -240,7 +257,34 @@ app.io.route('send', function(req) {
     app.io.room(req.data.room).broadcast('message', {
         message: req.data.message,
 		author: req.data.author
-    });
+	});
+
+	const newChat = new chatData({
+		author: req.data.author,
+		message: req.data.message,
+		room: req.data.room
+	});
+	newChat.save(function(error){
+		console.log("Chat has been saved!");
+		if(error){
+			console.log("error",error);
+		}
+	})
+    // })
+	// let arr = [];
+	// let file =  `chat-${req.data.room}.json`;
+	// if (fs.existsSync(file)) {
+	// 	let localArr = JSON.parse(fs.readFileSync(file, 'utf8'));
+	// 	if (Array.isArray(localArr)) {
+	// 		arr = localArr
+	// 	}
+	// }
+	// arr.push({message:req.data.message,author:req.data.author});
+	// console.log(arr)
+	// fs.writeFile(file,JSON.stringify(arr, null,4),'utf8',function (err) {
+	// 	if (err) throw err;
+	// 	console.log('Saved!');
+	//  });
 });
 
 app.io.route('signal', function(req) {
@@ -253,9 +297,7 @@ app.io.route('signal', function(req) {
 
 app.io.route('request', function(req) {
 	//Note the use of req here for broadcasting so only the sender doesn't receive their own messages
-	req.io.room(req.data.room).broadcast('request', {
-		message: req.data.message
-    });
+	req.io.room(req.data.docid).broadcast('request', req.data);
 });
 
 app.io.route('win', function(req) {

@@ -52,7 +52,7 @@
 	    <div class="modal-content" style="text-align: center;">
 	      <div class="modal-body" style="background: rgba(28,74,90, 0.7); color:#fff;" >
 	        <p>You Have to Check a patient</p>
-	        <a href="/chat?id=<%= user._id %>" class="btn btn-success"><strong>Ok</strong></a>
+	        <a id="roomChanger" href="/chat?id=<%= user._id %>" class="btn btn-success"><strong>Ok</strong></a>
 	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 	      </div>
 	    </div>
@@ -98,13 +98,14 @@
 	</div>
 </footer>
 <script>
-	var ROOM = "<%= user._id %>";
-	var SIGNAL_ROOM = "<%= user._id %>";
+	// var ROOM = "<%= user._id %>";
+	// var SIGNAL_ROOM = "<%= user._id %>";
 	// var ROOM = "chat3";
 	// var SIGNAL_ROOM = "signal_room3";
 	io = io.connect();
-	io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
+	// io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
 	io.on('request', function(data) {
+		document.getElementById('roomChanger').setAttribute('href', "/chat?id=" + data.room.split('-')[0]) 
 		$("#myModal").modal();
 	});
 	

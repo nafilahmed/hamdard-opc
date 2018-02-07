@@ -107,9 +107,8 @@
 		var sendMessage = document.querySelector("#send");
 		var chatArea = document.querySelector("#output");
 		var Vedio = document.querySelector("#myBtn");
-		var ROOM = "<%= locals.docid %>";
-		var SIGNAL_ROOM = "<%= locals.docid %>";
-				
+		var ROOM = "<%= locals.id %>";
+		var SIGNAL_ROOM = "<%= locals.id %>";
 		io = io.connect();
 		io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
 		io.emit('request', {"message":"requesting to doctor", "room":ROOM});
@@ -117,13 +116,23 @@
 		// io.on('announce', function(data) {
 		// 	displayMessage(data.message);
 		// });
-		
+					
 		io.on('message', function(data) {
-			displayMessage(data.author + ": " + data.message);
-		});
+			// displayMessage(data.author + ": " + data.message);
+displayMessage(data.author + ": " + data.message);
+			
+			// db.chatData.find( { : “Scruffy” } );
 
+		});
+		// io.on('message', function(data) {
+		// 	// displayMessage(data.author + ": " + data.message);
+		// 	displayMessage(data.author + ": " + data.message);
+			
+		// 	// db.chatData.find( { : “Scruffy” } );
+
+		// });
 		io.on('window', function(data) {
-			window.open("/video?q=<%= locals.docid %>", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=600");
+			window.open("/video?q=<%= locals.id %>", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=600");
 		});
 		
 		sendMessage.addEventListener('click', function(ev){

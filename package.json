@@ -22,7 +22,9 @@
   },
   "description": "University Project",
   "main": "app.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.14.12"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/engrrbilal/hamdard-opc-e-doctor.git"

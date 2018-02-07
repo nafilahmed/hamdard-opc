@@ -51,9 +51,9 @@
 			</div>
 			<% if (locals.doctors) { 
 				doctors.forEach(function(doc){ %>
-					<div class="col-md-3 col-sm-3 col-xs-6">
+					<div class="col-md-3 col-sm-3 cozyl-xs-6">
 						<div class="thumbnail"> 
-							<a href="/chat?id=<%= doc._id %>">
+							<a href="/chat?id=<%= doc._id + user._id %>">
 							<img src="img/doctor1.jpg" alt="..." class="team-img">
 							<div class="caption">
 								<h3><%= doc.username %></h3>
