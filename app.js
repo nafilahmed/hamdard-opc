@@ -6,8 +6,8 @@ const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const passport = require('passport');
 const mongoose = require('mongoose');
-var fs = require('fs');
-
+const fs = require('fs');
+// const text = require('textbelt');
 const app = express();
 app.http().io();
 
@@ -307,3 +307,15 @@ app.io.route('win', function(req) {
 		message: req.data.message
     });
 });
+
+const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
+const authToken = 'fec629ef370ad8ac8680256ab31571a3';
+const client = require('twilio')(accountSid, authToken);
+// console.log(client)
+
+//sending message
+// client.messages.create({
+// 	to: '+923068647267',
+// 	from: '(234) 294-1674',
+// 	body: 'Please check the Patient https://hamdard-opc.herokuapp.com/'
+//   });

@@ -98,16 +98,19 @@
 	</div>
 </footer>
 <script>
-	// var ROOM = "<%= user._id %>";
-	// var SIGNAL_ROOM = "<%= user._id %>";
+	var ROOM = document.getElementById('roomChanger').setAttribute('href', "/chat?id=" + data.room.split('-')[0]) ;
+	var SIGNAL_ROOM = document.getElementById('roomChanger').setAttribute('href', "/chat?id=" + data.room.split('-')[0]) ;
 	// var ROOM = "chat3";
 	// var SIGNAL_ROOM = "signal_room3";
 	io = io.connect();
-	// io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
+	io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
 	io.on('request', function(data) {
-		document.getElementById('roomChanger').setAttribute('href', "/chat?id=" + data.room.split('-')[0]) 
 		$("#myModal").modal();
 	});
+	// io.on('request', function(data) {
+	// 	document.getElementById('roomChanger').setAttribute('href', "/chat?id=" + data.room.split('-')[0]) 
+	// 	$("#myModal").modal();
+	// });
 	
 </script>	
 </body>

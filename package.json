@@ -15,7 +15,9 @@
     "express.io": "^1.1.13",
     "mongoose": "^5.0.0-rc1",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "textbelt": "0.0.3",
+    "twilio": "^3.11.2"
   },
   "scripts": {
     "start": "node app.js"
