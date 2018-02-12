@@ -49,11 +49,23 @@
 				<h2 class="ser-title">Meet Our Doctors!</h2>
 				<hr class="botm-line" >
 			</div>
+			<!-- <div>
+					<% if (locals.Arthopadic) { 
+						doctors.forEach(function(doc){ %>
+							<div class="col-md-3 col-sm-3 cozyl-xs-6">
+									<a href="#">
+									    <h1><%doc.spec%></h1>
+									</a>
+
+							</div>
+					<% });} %>
+					
+			</div> -->
 			<% if (locals.doctors) { 
 				doctors.forEach(function(doc){ %>
 					<div class="col-md-3 col-sm-3 cozyl-xs-6">
 						<div class="thumbnail"> 
-							<a href="/chat?id=<%= doc._id + user._id %>">
+							<a href="/chat?id=<%= doc._id + user._id %>&first=true">
 							<img src="img/doctor1.jpg" alt="..." class="team-img">
 							<div class="caption">
 								<h3><%= doc.username %></h3>

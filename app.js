@@ -121,6 +121,17 @@ app.get('/chat', (req, res) => {
 				docname : doc.username,
 				id: req.param('id')
 			});
+			if (req.param('first')) {
+				const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
+				const authToken = 'fec629ef370ad8ac8680256ab31571a3';
+				const client = require('twilio')(accountSid, authToken);
+				//sending message
+				client.messages.create({
+					to: '+923068647267',
+					from: '(234) 294-1674',
+					body: 'Please check the Patient                      https://hamdard-opc.herokuapp.com/'
+				});
+			}
 		});
 		// fs.readFile('chat1.txt', function(err, data) {
 		// 	res.writeHead(200, {'Content-Type': 'text/html'});
@@ -208,9 +219,11 @@ app.post('/registeration',(req,res)=>{
 			}else{
 				const newUser = new Users({
 		            username: req.body.username,
-		            email: req.body.email,
+					email: req.body.email,
+					speciality: req.body.spec,
 		            password: req.body.password,
-		            category: req.body.cat
+					category: req.body.cat,
+					
 		        });
 				bcrypt.genSalt(10, (err, salt) => {
 					bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -297,19 +310,7 @@ app.io.route('signal', function(req) {
 
 app.io.route('request', function(req) {
 	//Note the use of req here for broadcasting so only the sender doesn't receive their own messages
-	req.io.room(req.data.docid).broadcast('request', req.data);
-	//Twillio variables
-	const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
-    const authToken = 'fec629ef370ad8ac8680256ab31571a3';
-    const client = require('twilio')(accountSid, authToken);
-// console.log(client)
-
-   //sending message
-   client.messages.create({
-	   to: '+923068647267',
-	   from: '(234) 294-1674',
-	   body: 'Please check the Patient https://hamdard-opc.herokuapp.com/'
-     });
+	req.io.room(req.data.id).broadcast('request', req.data);
 });
 
 app.io.route('win', function(req) {

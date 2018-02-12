@@ -22,6 +22,9 @@ const UserSchema = new Schema({
   category:{
     type: String,
     required: true
+  },
+  speciality:{
+    type: String
   }
 });
 
