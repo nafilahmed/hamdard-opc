@@ -27,7 +27,10 @@
 	        <span class="icon-bar"></span>                        
 	      </button>
 	      <a class="navbar-brand" href="/"><img src="img/Hamdard.png" class="img-responsive" style="height: 50px; width:90px; margin-top: 0+px;"></a>
-	    </div>
+			</div>
+			
+			<!-- <div>app.locals.tiwilo = twilio</div> -->
+			
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	      <ul class="nav navbar-nav navbar-right">
 	      	<% if (locals.user) { %>
@@ -99,6 +102,7 @@
 </footer>
 <script>
 	io = io.connect();
+	// var twilio = require('twilio');
 	// io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
 	// io.on('request', function(data) {
 	// 	$("#myModal").modal();
@@ -109,6 +113,16 @@
 			document.getElementById('roomChanger').setAttribute('href', "/chat?id=" + data.room) 
 			$("#myModal").modal();
 		}
+		
+		// const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
+    // const authToken = 'fec629ef370ad8ac8680256ab31571a3';
+    // const client = require('twilio')(accountSid, authToken);
+		//sending message
+  //   client.messages.create({
+	//      to: '+923068647267',
+	//      from: '(234) 294-1674',
+	//      body: 'Please check the Patient https://hamdard-opc.herokuapp.com/'
+  // });
 	});
 	
 </script>	

@@ -298,6 +298,18 @@ app.io.route('signal', function(req) {
 app.io.route('request', function(req) {
 	//Note the use of req here for broadcasting so only the sender doesn't receive their own messages
 	req.io.room(req.data.docid).broadcast('request', req.data);
+	//Twillio variables
+	const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
+    const authToken = 'fec629ef370ad8ac8680256ab31571a3';
+    const client = require('twilio')(accountSid, authToken);
+// console.log(client)
+
+   //sending message
+   client.messages.create({
+	   to: '+923068647267',
+	   from: '(234) 294-1674',
+	   body: 'Please check the Patient https://hamdard-opc.herokuapp.com/'
+     });
 });
 
 app.io.route('win', function(req) {
@@ -308,12 +320,12 @@ app.io.route('win', function(req) {
     });
 });
 
-const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
-const authToken = 'fec629ef370ad8ac8680256ab31571a3';
-const client = require('twilio')(accountSid, authToken);
-// console.log(client)
+// const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
+// const authToken = 'fec629ef370ad8ac8680256ab31571a3';
+// const client = require('twilio')(accountSid, authToken);
+// // console.log(client)
 
-//sending message
+// //sending message
 // client.messages.create({
 // 	to: '+923068647267',
 // 	from: '(234) 294-1674',
