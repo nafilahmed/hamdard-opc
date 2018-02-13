@@ -54,7 +54,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-5" for="username">User name:</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="username" placeholder="Enter user name" name="username" value="<%= locals.username %>" >
+									<input type="text" class="form-control" id="username" placeholder="Enter User Name" name="username" value="<%= locals.username %>" >
 								</div>
 							</div>
 							<div class="form-group">
@@ -64,9 +64,16 @@
 								</div>
 							</div>
 							<div class="form-group">
-									<label class="control-label col-sm-5" for="email">Speciallity:</label>
+								<label class="control-label col-sm-5" for="phoneno">Speciality:</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="spec" placeholder="Speciality" name="spec" value="<%= locals.spec %>" >
+								</div>
+							</div>
+						<div class="form-group">
+							<div class="form-group">
+									<label class="control-label col-sm-5" for="phoneno">Phone Number:</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="spec" placeholder="Speciality" name="spec" value="<%= locals.spec %>" >
+										<input type="text" class="form-control" id="phoneno" placeholder="Phone Number" name="phoneno" value="<%= locals.phoneno %>" >
 									</div>
 								</div>
 							<div class="form-group">
@@ -92,17 +99,7 @@
 								</div>
 
 							</div>
-							<!-- <div class="form-group">
-								<label class="control-label col-sm-5" for="cat">Select Your Specialization</label>
-								<div class="col-sm-4">          
-									<select class="form-control" name="spec" id="spec">
-										   	<option value="Doctor">General</option>
-							        	<option value="Patient">physician</option>
-												<option value="Doctor">Arthopadic</option>
-							    	</select>
-								</div>
 
-							</div> -->
 							<div class="form-group">        
 								<div class="col-sm-offset-1 col-sm-10">
 									<button type="submit" class="btn btn-success">Sign Up</button>

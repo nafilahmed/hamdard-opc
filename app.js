@@ -115,30 +115,28 @@ app.get('/user', (req, res) => {
 //chat/websocket route
 app.get('/chat', (req, res) => {
 	if (req.user) {
-		Users.findById(req.param('id').split('-')[0], function (err, doc){
+		Users.findById(req.param('id').slice(0, req.param('id').length / 2), function (err, doc){
 			if (!doc) { doc = {} }
+			
 			res.render('chat',{
 				docname : doc.username,
+				docno : doc.phoneno,
 				id: req.param('id')
 			});
+			
 			if (req.param('first')) {
 				const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
 				const authToken = 'fec629ef370ad8ac8680256ab31571a3';
 				const client = require('twilio')(accountSid, authToken);
 				//sending message
+				console.log(doc)
 				client.messages.create({
-					to: '+923068647267',
+					to: doc.phoneno,
 					from: '(234) 294-1674',
-					body: 'Please check the Patient                      https://hamdard-opc.herokuapp.com/'
+					body: 'Please check the Patient https://hamdard-opc.herokuapp.com/chat?id=' + req.param('id')
 				});
 			}
 		});
-		// fs.readFile('chat1.txt', function(err, data) {
-		// 	res.writeHead(200, {'Content-Type': 'text/html'});
-		// 	res.write(data);
-		// 	res.end();
-		// 	console.log("reading file")
-		//   });
 	}
 	else{
 		res.render('login',{
@@ -220,7 +218,8 @@ app.post('/registeration',(req,res)=>{
 				const newUser = new Users({
 		            username: req.body.username,
 					email: req.body.email,
-					speciality: req.body.spec,
+					spec: req.body.spec,
+					phoneno: req.body.phoneno,
 		            password: req.body.password,
 					category: req.body.cat,
 					
@@ -261,9 +260,6 @@ app.io.route('ready', function(req) {
 		})
 	});
 	req.io.join(req.data.signal_room);
-	// app.io.room(req.data).broadcast('announce', {
-	// 	message: 'New client in the ' + req.data + ' room.'
-	// })
 });
 
 app.io.route('send', function(req) {
@@ -283,21 +279,6 @@ app.io.route('send', function(req) {
 			console.log("error",error);
 		}
 	})
-    // })
-	// let arr = [];
-	// let file =  `chat-${req.data.room}.json`;
-	// if (fs.existsSync(file)) {
-	// 	let localArr = JSON.parse(fs.readFileSync(file, 'utf8'));
-	// 	if (Array.isArray(localArr)) {
-	// 		arr = localArr
-	// 	}
-	// }
-	// arr.push({message:req.data.message,author:req.data.author});
-	// console.log(arr)
-	// fs.writeFile(file,JSON.stringify(arr, null,4),'utf8',function (err) {
-	// 	if (err) throw err;
-	// 	console.log('Saved!');
-	//  });
 });
 
 app.io.route('signal', function(req) {
@@ -320,15 +301,3 @@ app.io.route('win', function(req) {
 		message: req.data.message
     });
 });
-
-// const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
-// const authToken = 'fec629ef370ad8ac8680256ab31571a3';
-// const client = require('twilio')(accountSid, authToken);
-// // console.log(client)
-
-// //sending message
-// client.messages.create({
-// 	to: '+923068647267',
-// 	from: '(234) 294-1674',
-// 	body: 'Please check the Patient https://hamdard-opc.herokuapp.com/'
-//   });

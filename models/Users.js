@@ -23,9 +23,13 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  speciality:{
+  spec:{
+    type: String
+  },
+  phoneno:{
     type: String
   }
 });
 
 mongoose.model('users', UserSchema);
+// module.exports = mongoose.model('users', UserSchema);
