@@ -305,10 +305,10 @@ app.io.on('connection', function (socket) {
 		allDoctors[data] = true
 		socket.on('disconnect', function () {
 			delete allDoctors[data]
-			app.io.sockets.emit('status', Object.keys(allDoctors).length)			
+			app.io.sockets.emit('status', allDoctors)			
 			Users.findByIdAndUpdate(data, {online: false}, console.log)
 		})
-		app.io.sockets.emit('status', Object.keys(allDoctors).length)
+		app.io.sockets.emit('status', allDoctors)
 	})
 	// socket.on('disconnect', function (data) {
 	// 	var i = allDoctors.indexOf(socket);

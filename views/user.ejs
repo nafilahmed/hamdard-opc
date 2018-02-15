@@ -53,12 +53,15 @@
 			
 			<% if (locals.doctors) { 
 				doctors.forEach(function(doc){ %>
-					<div class="col-md-3 col-sm-3 cozyl-xs-6 ">
+					<div class="col-md-3 col-sm-3 cozyl-xs-6 doctors" data-docid="<%= doc._id %>">
 						<div class="thumbnail"> 
 							<a href="/chat?id=<%= doc._id + user._id %>&first=true">
 							<img src="img/doctor4.jpg" alt="..." class="team-img">
 							<div class="caption">
-								<h3><%= doc.username %></h3>
+								<div class="doc-name-wrappper">
+									<h3><%= doc.username %></h3>
+									<span class="status"></span>
+								</div>
 								<p><%= doc.spec %></p>
 								<ul class="list-inline">
 									<li><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -74,12 +77,36 @@
 	</div>
 	
 </section>
+<style>
+	.doctors .status {
+		background-color: red;
+		height: 15px;
+		width: 15px;
+		display: inline-block;
+		border-radius: 50%;
+	}
+	.online .status {
+		background-color: green;
+	}
+	.doc-name-wrappper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+</style>
 <script>
+	const doctors = document.querySelectorAll('.doctors');
 	const count = document.getElementById('count')
 	io = io.connect();
+	// var socket = io();
 	//Printing Doctor online status
 	io.on('status',function(data){
-		count.innerHTML = (data)
+		var keys = Object.keys(data);
+		count.innerHTML = keys.length;
+		doctors.forEach(a => {
+			var docid = a.getAttribute('data-docid');
+			keys.indexOf(docid) !== -1 ? a.classList.add('online') : a.classList.remove('online')
+		})
 	})
 </script>
 <footer id="footer">
