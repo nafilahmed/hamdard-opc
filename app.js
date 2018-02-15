@@ -297,7 +297,7 @@ app.io.on('connection', function (socket) {
 	// app.io.sockets.emit('status', allDoctors.length + ' Doctors online')
 	// console.log(socket)	
 	// count++;
-	socket.emit('status', Object.keys(allDoctors).length)
+	socket.emit('status', allDoctors)
 	socket.emit('connect-get-id')
 	socket.on('connect-found-id', function (data) {
 		Users.findByIdAndUpdate(data, {online: true}, console.log)
