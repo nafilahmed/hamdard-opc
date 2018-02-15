@@ -102,6 +102,9 @@
 </footer>
 <script>
 	io = io.connect();
+	io.on('connect-get-id', function () {
+		io.emit('connect-found-id', "<%= user._id %>")
+	})
 	io.on('request', function(data) {
 		// console.log(data.room.split('-') , "<%= user._id %>")
 		if (data.room.includes("<%= user._id %>")) {

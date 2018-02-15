@@ -28,6 +28,10 @@ const UserSchema = new Schema({
   },
   phoneno:{
     type: String
+  },
+  online: {
+    type: Boolean,
+    required: false
   }
 });
 
