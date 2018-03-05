@@ -17,7 +17,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "textbelt": "0.0.3",
-    "twilio": "^3.11.2"
+    "twilio": "^3.11.3"
   },
   "scripts": {
     "start": "node app.js"

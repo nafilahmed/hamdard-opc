@@ -7,7 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const fs = require('fs');
-// const text = require('textbelt');
+var twilio = require('twilio');
 const app = express();
 app.http().io();
 const allDoctors = {};
@@ -137,18 +137,36 @@ app.get('/chat', (req, res) => {
 				id: req.param('id')
 			});
 
-			if (req.param('first')) {
-				const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
-				const authToken = 'fec629ef370ad8ac8680256ab31571a3';
-				const client = require('twilio')(accountSid, authToken);
-				//sending message
-				console.log(doc)
-				client.messages.create({
-					to: doc.phoneno || '+923068647267',
-					from: '(234) 294-1674',
-					body: 'Please check the Patient https://hamdard-opc.herokuapp.com/chat?id=' + req.param('id')
-				});
-			}
+			// if (req.param('first')) {
+			// 	const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
+			// 	const authToken = 'fec629ef370ad8ac8680256ab31571a3';
+			// 	const client = require('twilio')(accountSid, authToken);
+				
+			// 	//Make a call
+			// 	client.calls.create({
+			// 		  url: 'https://handler.twilio.com/twiml/EHc268de41386b56d246a2ddfffa107426',
+			// 		  to: doc.phoneno || '+923068647267',
+			// 		  from: '(234) 294-1674',
+			// 	   },function(err, call){
+			// 		   if(err){
+			// 			   console.log(err);
+			// 		   }
+			// 		   else{
+			// 			console.log(call.sid);
+			// 		   }
+			// 	   }
+			// 	);
+			// 	// console.log(client)
+
+			// 	// sending message
+			// 	// console.log(doc)
+			// 	// client.messages.create({
+			// 	// 	to: doc.phoneno || '+923068647267',
+			// 	// 	from: '(234) 294-1674',
+			// 	// 	body: 'Please check the Patient https://hamdard-opc.herokuapp.com/chat?id=' + req.param('id')
+			// 	// });
+			// 	// console.log(client)
+			// }
 		});
 	}
 	else {
@@ -156,7 +174,17 @@ app.get('/chat', (req, res) => {
 			error: "Login First"
 		});
 	}
-});
+})
+
+// app.post('/voice',function(req,res){
+// 	var twiml = new twilio.TwimlResponse();
+// 	twiml.say("Please Check the patient ");
+// 	res.writeHead(200,{'Content-Type':'text/xml'});
+// 	res.end(twiml.toString());
+// });
+// http.createServer(app).listen(1337,function(){
+// 	console.log('Voice server running on 1337')
+// })
 //video/WebRTC route
 app.get('/video', function (req, res) {
 	if (req.user) {
