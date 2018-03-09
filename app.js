@@ -11,14 +11,18 @@ const fs = require('fs');
 
 const app = express();
 app.http().io();
+// DB Config
+const db = require('./config/database');
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost/adfyp2').then(() => {
-	console.log('MongoDB Connected')
-}).catch(err => {
-	console.log(err)
-});
+// Connect to mongoose
+mongoose.connect(db.mongoURI, {
+	//   useMongoClient: true
+})
+	.then(() => console.log('MongoDB Connected...'))
+	.catch(err => console.log(err));
+
 
 require('./models/Users');
 const Users = mongoose.model('users');
