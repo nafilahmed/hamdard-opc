@@ -8,22 +8,8 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const twilio = require('twilio');
 const fs = require('fs');
-
 const app = express();
 app.http().io();
-// DB Config
-const db = require('./config/database');
-
-mongoose.Promise = global.Promise;
-
-// Connect to mongoose
-mongoose.connect(db.mongoURI, {
-	//   useMongoClient: true
-})
-	.then(() => console.log('MongoDB Connected...'))
-	.catch(err => console.log(err));
-
-
 require('./models/Users');
 const Users = mongoose.model('users');
 
@@ -39,11 +25,22 @@ const Practitioners = mongoose.model('practitioners');
 require('./models/Prescription');
 const Prescriptions = mongoose.model('prescriptions');
 
-// Passport Config
-require('./config/passport')(passport);
-
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Passport Config
+require('./config/passport')(passport);
+// DB Config
+const db = require('./config/database');
+
+mongoose.Promise = global.Promise;
+
+// Connect to mongoose
+mongoose.connect(db.mongoURI, {
+	//   useMongoClient: true
+})
+	.then(() => console.log('MongoDB Connected...'))
+	.catch(err => console.log(err));
+	
 app.set('view engine', 'ejs');
 
 
