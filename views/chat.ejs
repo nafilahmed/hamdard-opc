@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<title>Hamdard OPC</title>
+	<title>Hamdar E-Doctor</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -10,6 +10,10 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script> -->
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+    <!-- <script src="js/custom.js"></script> -->
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 	<section id="bar" class="bar">
@@ -26,9 +30,12 @@
 			    </div>
 			    <div class="collapse navbar-collapse" id="myNavbar">
 			      <ul class="nav navbar-nav navbar-right">
-					  <% if (locals.user) { %>	
-						<li><a href="/"><span class="glyphicon glyphicon-user"></span> <%= user._id %></a></li>
-						<li><a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>				
+			      	<% if (locals.user) { %>
+			      		<% if (locals.doct) { %>
+			      			<li><a href="/docchat?id=<%= user._id %>" target="_blank"><span class="glyphicon glyphicon-user"></span> prescription</a></li>
+							<li><button type="button" class="btn btn-link">Link</button></li>
+						<% } %>				      		 
+						<li><a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
 					<% } %>
 			      </ul>
 			    </div>
@@ -54,7 +61,6 @@
 				</div>
 	        </div>	
 		</div>
-			
 	</section>
 	<section>
 	</section>
@@ -101,18 +107,29 @@
 		var sendMessage = document.querySelector("#send");
 		var chatArea = document.querySelector("#output");
 		var Vedio = document.querySelector("#myBtn");
-		var ROOM = "<%= locals.id %>";
-		var SIGNAL_ROOM = "<%= locals.id %>";
+		var cat = "<%= user.category %>";
+		var ROOM = "<%= locals.docid %>";
+		var SIGNAL_ROOM = "<%= locals.docid %>";
+				
 		io = io.connect();
-		
 		io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
-		io.emit('request', {"message":"requesting to doctor", "room":ROOM});
+		
+		if (cat == "patient") {		
+			io.emit('request', {"message":"<%= user._id %>", "room":ROOM});
+		}
+		
+		io.on('request', function(data) {
+			patid = data.message;
+			// 	
+		});
+		
 
 		io.on('message', function(data) {
-              displayMessage(data.author + ": " + data.message);
+			displayMessage(data.author + ": " + data.message);
 		});
+
 		io.on('window', function(data) {
-			window.open("/video?q=<%= locals.id %>", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=600");
+			window.open("/video?q=<%= locals.docid %>", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
 		});
 		
 		sendMessage.addEventListener('click', function(ev){
@@ -122,13 +139,16 @@
 		
 		Vedio.addEventListener('click', function(ev){
 			io.emit('win', {"author":myName.value, "message":"open new window on client", "room":ROOM});
-			 window.open("/video?q=<%= locals.id %>", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=400,width=500,height=600");
+			 window.open("/video?q=<%= locals.docid %>", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
 			ev.preventDefault();
 		}, false);
 
 		function displayMessage(message) {
 			chatArea.innerHTML = chatArea.innerHTML + "<br/>" + message;
 		}
+		// $(document).ready(function(){
+		// 	io.emit('send', {"author":'<%= locals.docname %>', "message":"hello there ", "room":ROOM});
+		// });
 	</script>
 </body>
 </html>

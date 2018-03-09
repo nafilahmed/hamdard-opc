@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Hamdar OPC</title>
+	<title>Hamdar E-Doctor</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -21,11 +21,11 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>                        
 	      </button>
-	      <a class="navbar-brand" href="#"><img src="img/Hamdard.png" class="img-responsive" style="height: 50px; width:90px; margin-top: 0+px;"></a>
+	      <a class="navbar-brand" href="/"><img src="img/Hamdard.png" class="img-responsive" style="height: 50px; width:90px; margin-top: 0+px;"></a>
 	    </div>
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	      <ul class="nav navbar-nav navbar-right">
-	        <li><a href="/"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
+	        <li><a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
 	      </ul>
 	    </div>
 	  </div>
@@ -33,80 +33,79 @@
 </section>
 
 <section id="doctor-team" class="doctor-team">
-	<div class="container">
-		<div class="jumbotron">
-			<h1>Welcome Patient</h1> 
-			<p>Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile-first projects on the web.</p> 
-		</div>
-	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<h2 class="ser-title">Meet Our Doctors!</h2>
-				<hr class="botm-line" >
+	<div class="container-fluid" >
+		<div class="row" >
+			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+				<div class="container-fluid">
+					<div class="jumbotron">
+						<h1>Welcome <%= user.username %></h1> 
+						<p>Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile-first projects on the web.</p> 
+					</div>
+					<div class="panel panel-primary">
+						<div class="panel-heading"><h3 style="font-weight: bold;" >Dignosis Form</h3></div>
+						<div class="panel-body">
+							<form class="form-horizontal" action="/doctorcategory" method="GET" >
+								<div class="form-group">
+									<label class="control-label col-sm-3" for="patage">Age:</label>
+									<div class="col-sm-7">
+										<input required type="text" class="form-control" id="patage" placeholder="Enter Patient Age" name="patage" value="23" >
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-3" for="pattemp">Temperature:</label>
+									<div class="col-sm-7">
+										<input required type="number" class="form-control" id="pattemp" placeholder="Enter Patient Temperature" name="pattemp" value="104" >
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-3" for="patblood1">Bload Pressure:</label>
+									<div class="col-sm-2">
+										<input required type="number" class="form-control" id="patblood1" name="patblood1" value="44" >
+									</div>
+									<div class="col-sm-1">
+										__
+									</div>
+									<div class="col-sm-2" align="left" >
+										<input required type="number" class="form-control" id="patblood2" name="patblood2" value="44" >
+									</div>
+									<div class="col-sm-4"></div>
+								</div>
+								
+								<div class="form-group">
+									<label class="control-label col-sm-3" for="patsugar1">Sugar Level:</label>
+									<div class="col-sm-2">
+										<input required type="number" class="form-control" id="patsugar1" name="patsugar1" value="44" >
+									</div>
+									<div class="col-sm-1">
+										__
+									</div>
+									<div class="col-sm-2" align="left" >
+										<input required type="number" class="form-control" id="patsugar2" name="patsugar2" value="44" >
+									</div>
+									<div class="col-sm-4"></div>
+								</div>
+								<div id="addremove" class="col-sm-offset-3 col-sm-7">
+									<button id="btn-copy" class="btn btn-success" style="font-size: 16px;" >Submit</button>
+									<!-- <button id="btn-dele" class="btn btn-danger">Remove</button> -->
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="col-md-3 col-sm-3 col-xs-6">
-		      <div class="thumbnail"> 
-		      	<a href="#">
-			      	<img src="img/doctor1.jpg" alt="..." class="team-img">
-			        <div class="caption">
-			          <h3>Dr.Jessica Wally</h3>
-			          <p>Physician</p>
-			          <ul class="list-inline">
-			            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-			            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-			            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-			          </ul>
-			        </div>
-		      	</a>
-		      </div>
-		    </div>
-		    <div class="col-md-3 col-sm-3 col-xs-6">
-		      <div class="thumbnail"> 
-		      	<a href=""><img src="img/doctor2.jpg" alt="..." class="team-img">
-		        <div class="caption">
-		          <h3>Dr.Iai Donas</h3>
-		          <p>Child specialist</p>
-		          <ul class="list-inline">
-		            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-		            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-		            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-		          </ul>
-		        </div></a>
-		      </div>
-		    </div>
-		    <div class="col-md-3 col-sm-3 col-xs-6">
-		      <div class="thumbnail"> 
-		      	<a href=""><img src="img/doctor3.jpg" alt="..." class="team-img">
-		        <div class="caption">
-		          <h3>Dr.Amanda Denyl</h3>
-		          <p>Psychiatrist</p>
-		          <ul class="list-inline">
-		            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-		            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-		            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-		          </ul>
-		        </div></a>
-		      </div>
-		    </div>
-		    <div class="col-md-3 col-sm-3 col-xs-6">
-		      <div class="thumbnail"> 
-		      	<a href=""><img src="img/doctor4.jpg" alt="..." class="team-img">
-		        <div class="caption">
-		          <h3>Dr.Jason Davis</h3>
-		          <p>Physiotherapist</p>
-		          <ul class="list-inline">
-		            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-		            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-		            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-		          </ul>
-		        </div></a>
-		      </div>
-		    </div>
-		</div>
+			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+				<div class="cat" id="cat">
+					<a href="/patienthistory" style="font-size: 20px;" ><span class="glyphicon glyphicon-folder-open"></span> Patient History</a>
+					<br><br>
+					<a href="/patienthistory" style="font-size: 20px;" ><span class="glyphicon glyphicon-folder-open"></span> Patient History</a>
+				</div>
+			</div>
+		</div>	
 	</div>
+	
 </section>
-
+<section id="foo" class="foo">
 	<footer id="footer">
 		<div class="top-footer">
 			<div class="container">
@@ -143,6 +142,10 @@
 				</div>
 			</div>
 		</div>
-	</footer>	
+	</footer>
+</section>
+<script>
+	
+</script>
 </body>
 </html>

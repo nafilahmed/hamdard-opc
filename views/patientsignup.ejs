@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Hamdard OPC</title>
+	<title>Hamdar E-Doctor</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -11,7 +11,8 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<section id="bar" class="bar"> 
+<section id="bar" class="bar">
+	<div class="bg-color" ></div>
 	<nav class="navbar navbar-default navbar-fixed-top ">
 	  <div class="container">
 	    <div class="navbar-header">
@@ -24,58 +25,36 @@
 	    </div>
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	      <ul class="nav navbar-nav navbar-right">
-	      	<li class="dropdown">
-	          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-log-in"></span> Login<span class="caret"></span></a>
-	          <ul class="dropdown-menu">
-	            <li><a href="/login">Patient</a></li>
-	            <li><a href="/login">Doctor</a></li>
-	          </ul>
-	        </li>
+	      	<li><a href="/">Practitioner</a></li>
 	      </ul>
 	    </div>
 	  </div>
 	</nav>
-	<div class="bg-color" >	
-		<div class="container">
-			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-8">
-					<div class="banner-text" id="banner-text" >
-						
-						<img src="img/Hamdard.png">
-						<% if (locals.errors) { 
-							errors.forEach(function(val){ %>
-								<div class="alert alert-danger">
-									<p><strong>Error:</strong><%= val.username %></p>
-								</div>
-						<% });} %>
-
-						<form class="form-horizontal" method="POST" action="/registeration">
-							<div class="form-group">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<div class="banner-text" id="banner-text" >
+					<img src="img/Hamdard.png">
+					<% if (locals.errors) { 
+						errors.forEach(function(val){ %>
+							<div class="alert alert-danger">
+								<p><strong>Error:</strong><%= val.text %></p>
+							</div>
+					<% });} %>
+					<form class="form-horizontal" action="/patientsignup" method="POST" >
+						<div class="form-group">
 								<label class="control-label col-sm-5" for="username">User name:</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="username" placeholder="Enter User Name" name="username" value="<%= locals.username %>" >
+									<input type="text" class="form-control" id="username" placeholder="Enter user name" name="username">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-5" for="email">Email:</label>
+								<label class="control-label col-sm-5" for="nic">NIC:</label>
 								<div class="col-sm-4">
-									<input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="<%= locals.email %>" >
+									<input type="text" class="form-control" id="nic" placeholder="Enter NIC number" name="nic" >
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="control-label col-sm-5" for="phoneno">Speciality:</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="spec" placeholder="Speciality" name="spec" value="<%= locals.spec %>" >
-								</div>
-							</div>
-						<div class="form-group">
-							<div class="form-group">
-									<label class="control-label col-sm-5" for="phoneno">Phone Number:</label>
-									<div class="col-sm-4">
-										<input type="text" class="form-control" id="phoneno" placeholder="Phone Number" name="phoneno" value="<%= locals.phoneno %>" >
-									</div>
-								</div>
 							<div class="form-group">
 								<label class="control-label col-sm-5" for="password">Password:</label>
 								<div class="col-sm-4">          
@@ -83,23 +62,26 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-5" for="password2">Confirm Password:</label>
+								<label class="control-label col-sm-5" for="password2">Conform Password:</label>
 								<div class="col-sm-4">          
 									<input type="password" class="form-control" id="password2" placeholder="Re-enter password" name="password2" >
 								</div>
 							</div>
-
 							<div class="form-group">
-								<label class="control-label col-sm-5" for="cat">Select Your category</label>
+								<label class="control-label col-sm-5" for="patgender">Select Your gender</label>
 								<div class="col-sm-4">          
-									<select class="form-control" name="cat" id="cat">
-							        	<option value="Patient">Patient</option>
-							        	<option value="Doctor">Doctor</option>
+									<select class="form-control" name="gender" id="gender">
+							        	<option value="Male">Male</option>
+							        	<option value="Female">Female</option>
 							    	</select>
 								</div>
-
 							</div>
-
+							<div class="form-group">
+								<label class="control-label col-sm-5" for="age">Date of Birth:</label>
+								<div class="col-sm-4">
+									<input type="date" class="form-control" id="dateofbirth" placeholder="Enter date of birth" name="dateofbirth" >
+								</div>
+							</div>
 							<div class="form-group">        
 								<div class="col-sm-offset-1 col-sm-10">
 									<button type="submit" class="btn btn-success">Sign Up</button>
@@ -108,14 +90,14 @@
 							<div class="form-group">        
 								<div class="col-sm-offset-2 col-sm-10"></div>
 						    </div>
-						</form>
-					</div>
+					</form>
 				</div>
-			</div>	
-		</div>
+			</div>
+		</div>	
 	</div>
 </section>
 
+<section id="foo" class="foo">
 	<footer id="footer">
 		<div class="top-footer">
 			<div class="container">
@@ -152,6 +134,7 @@
 				</div>
 			</div>
 		</div>
-	</footer>	
+	</footer>
+</section>	
 </body>
 </html>

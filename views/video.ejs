@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title>Hamdard OPC</title>
+		<title>O'Reilly Introduction to WebRTC</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<script src="/socket.io/socket.io.js"></script>
 	</head>
@@ -19,8 +19,8 @@
 			var signalingArea = document.getElementById("signalingArea");
 			var executed = false;
 			var call = false;
-			var ROOM = "<%= locals.id %>";
-			var SIGNAL_ROOM = "<%= locals.id %>";
+			var ROOM = "<%= locals.docid %>";
+			var SIGNAL_ROOM = "<%= locals.docid %>";
 			// var a = '<%= locals.docname %>';
 			// console.log(a);
 			var configuration = {
@@ -102,36 +102,13 @@
 					displaySignalMessage("going to add their stream...");
 					theirVideoArea.src = URL.createObjectURL(evt.stream);
 				};
-
-				//setting constraints
-				var constraints = {
-                    video: {
-                         mandatory: {
-                         minWidth: 640,
-                         minHeight: 480
-                       }
-                       },
-                    audio: true
-                };
-                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent)) {
-                // The user is using a mobile device, lower our minimum
-                  constraints = {
-                     video: {
-                         mandatory: {
-                         minWidth: 480,
-                         minHeight: 320,
-                         maxWidth: 1024,
-                         maxHeight: 768
-                        }
-                    },
-                    audio: true
-                  };
-                }
-
-
+				
 				// get a local stream, show it in our video tag and add it to be sent
 				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-				navigator.getUserMedia(constraints, function (stream) {
+				navigator.getUserMedia({
+					'audio': false,
+					'video': true
+				}, function (stream) {
 					displaySignalMessage("going to display my stream...");
 					myVideoArea.src = URL.createObjectURL(stream);
 					rtcPeerConn.addStream(stream);
@@ -162,30 +139,6 @@
 				ev.preventDefault();
 			}, false);
 
-
-// Audio Recorder
-// 			var mediaConstraints = {
-//     audio: true
-// };
-
-// navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
-
-// function onMediaSuccess(stream) {
-//     var mediaRecorder = new MediaStreamRecorder(stream);
-//     mediaRecorder.mimeType = 'audio/wav'; // check this line for audio/wav
-//     mediaRecorder.ondataavailable = function (blob) {
-//         // POST/PUT "Blob" using FormData/XHR2
-//         var blobURL = URL.createObjectURL(blob);
-//         document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
-//     };
-//     mediaRecorder.start(3000);
-// }
-
-// function onMediaError(e) {
-//     console.error('media error', e);
-// }
-
 		</script>
-		
 	</body>
 </html>

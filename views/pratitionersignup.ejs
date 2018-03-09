@@ -9,12 +9,10 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-<section id="patient-bar" class="patient-bar">
-	<!-- <div class="bg-color" id="bg-color" ></div> -->
+<section id="bar" class="bar">
+	<div class="bg-color" ></div>
 	<nav class="navbar navbar-default navbar-fixed-top ">
 	  <div class="container">
 	    <div class="navbar-header">
@@ -27,53 +25,63 @@
 	    </div>
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	      <ul class="nav navbar-nav navbar-right">
-	      	<li><a href="index.html"><span class="glyphicon glyphicon-home"></span> Profile</a></li>
-	        <li><a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
+			<li><a href="/practitionerlogin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 	      </ul>
 	    </div>
 	  </div>
 	</nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<div class="banner-text" id="banner-text" >
+					<img src="img/Hamdard.png">
+					<% if (locals.errors) { 
+						errors.forEach(function(val){ %>
+							<div class="alert alert-danger">
+								<p><strong>Error:</strong><%= val.text %></p>
+							</div>
+					<% });} %>
+					<form class="form-horizontal" action="/pratitionersignup" method="POST" >
+						<div class="form-group">
+							<label class="control-label col-sm-5" for="username">User name:</label>
+							<div class="col-sm-4">
+								<input required type="text" class="form-control" id="username" placeholder="Enter user name" name="username" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-5" for="email">Email:</label>
+							<div class="col-sm-4">
+								<input required type="email" class="form-control" id="email" placeholder="Enter email" name="email" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-5" for="password">Password:</label>
+							<div class="col-sm-4">          
+								<input required type="password" class="form-control" id="password" placeholder="Enter password" name="password" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-5" for="password2">Conform Password:</label>
+							<div class="col-sm-4">          
+								<input required type="password" class="form-control" id="password2" placeholder="Re-enter password" name="password2" >
+							</div>
+						</div>
+						<div class="form-group">        
+							<div class="col-sm-offset-1 col-sm-10">
+								<button type="submit" class="btn btn-success">Sign Up</button>
+							</div>
+						</div>
+						<div class="form-group">        
+							<div class="col-sm-offset-2 col-sm-10"></div>
+					    </div>
+					</form>
+				</div>
+			</div>
+		</div>	
+	</div>
 </section>
 
-<section id="practitioner" class="practitioner">
-	<div class="container">
-		<div class="jumbotron">
-			<h1>Welcome Dr.<%= user._id %></h1> 
-			<p>Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile-first projects on the web.</p> 
-		</div>
-	</div>
-	<div class="container">
-		<h2>Total Amount</h2>
-		<div class="row" >
-			<div class="col-sm-1" >
-				<hr class="botm-line">
-			</div>
-			<div class="col-sm-10"></div>
-		</div>
-		<% if (locals.doctor) { 
-			doctor.forEach(function(doc){ %>
-			<h3><%= doc.amount %>/- Pkr</h3>
-			<script > 
-				var ROOM = "<%= doc._id %>";
-				var SIGNAL_ROOM = "<%= doc._id %>";	
-			</script>
-		<% });} %>
-	</div>
-	<div id="myModal" class="modal fade" role="dialog"  >
-	  <div class="modal-dialog"  >
-	    <div class="modal-content" style="text-align: center;">
-	      <div class="modal-body" style="background: rgba(28,74,90, 0.7); color:#fff;" >
-	        <p>You Have to Check a patient</p>
-	        <% if (locals.doctor) { 
-				doctor.forEach(function(doc){ %>
-					<a href="/chat?id=<%= doc._id %>" id="chatreq" class="btn btn-success"><strong>Ok</strong></a>	
-			<% });} %>	        
-	        <button type="button" class="btn btn-danger" id="chatreqno" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-</section>
 <section id="foo" class="foo">
 	<footer id="footer">
 		<div class="top-footer">
@@ -112,26 +120,6 @@
 			</div>
 		</div>
 	</footer>
-</section>
-<script>	
-	var chatreq = document.querySelector("#chatreq");
-	var chatreqno = document.querySelector("#chatreqno");
-	io = io.connect();
-	io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
-	io.on('request', function(data) {
-		$("#myModal").modal();
-	});
-
-	chatreq.addEventListener('click', function(ev){
-		io.emit('chatreply', {"message":"accepted", "room":ROOM});
-		
-		// ev.preventDefault();
-	}, false);
-
-	chatreqno.addEventListener('click', function(ev){
-		io.emit('chatreply', {"message":"not accepted", "room":ROOM});
-		ev.preventDefault();
-	}, false);	
-</script>
+</section>	
 </body>
 </html>

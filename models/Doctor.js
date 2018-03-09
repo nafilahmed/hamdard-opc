@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Create Schema
-const UserSchema = new Schema({
+const DoctorSchema = new Schema({
   username:{
     type: String,
     required: true
@@ -11,18 +11,22 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  password:{
-    type: String,
-    required: true
-  },
   date: {
     type: Date,
     default: Date.now
   },
-  category:{
+  amount:{
+    type: Number,
+    required: true
+  },
+  specialization:{
     type: String,
     required: true
-  }
+  },
+  contact:{
+    type: String,
+    required: true
+  },
 });
 
-mongoose.model('users', UserSchema);
+mongoose.model('doctors', DoctorSchema);

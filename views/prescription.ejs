@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hamdar E-Doctor</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<section id="logo" class="logo" align="center"; >
+	<div class="container" >
+		<img src="img/Hamdard.png" >
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" ></div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" >
+				<h2>Indigenous Development Of Web Application For Remote Out Patient Care (E-Doctor System) </h2>	
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" ></div>
+		</div>	
+	</div>	
+</section>
+
+<section id="medinfo" class="medinfo">
+	<div class="container">
+		<div class="perinfo">
+			<div class="row">
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+					<br>
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doct){ %>
+							<p>Date :<%= doct.date; %></p>	
+						<%});%>
+					<%}%>
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doct){ %>
+							<p>Patient Name : <%= doct.patname; %></p>	
+						<%});%>
+					<%}%>
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doct){ %>
+							<p>Age : <%= doct.patage; %></p>	
+						<%});%>
+					<%}%>
+					<table>
+						<tr>
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doct){ %>
+							<td>Blood Pressure :</td>
+							<td> <%= doct.patblood1; %> - </td>	
+						<%});%>
+					<%}%>
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doct){ %>
+							<td> <%= doct.patblood2; %></td>	
+						<%});%>
+					<%}%>
+						</tr>
+					</table>
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doct){ %>
+							<p>Temperature : <%= doct.pattemp; %></p>	
+						<%});%>
+					<%}%>
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doct){ %>
+								<p>Sugar Level : <%= doct.patsugar; %></p>	
+						<%});%>
+					<%}%>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			</div>	
+		</div>
+		<div id="med"  class="med">
+			<div class="row" >
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<h2>Medicine</h2>		
+				</div>
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"></div>
+			</div>
+			<!-- <br> -->
+			<div class="row">
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doc){ %>
+							<%doc.mdnam.forEach(function(doct){ %>
+								<h4><%= doct; %></h4>	
+							<%});%>
+						<%});%>
+					<%}%>
+				</div>
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doc){ %>
+							<%doc.medamount.forEach(function(doct){ %>
+								<h4><%= doct; %></h4>	
+							<%});%>
+						<%});%>
+					<%}%>
+				</div>
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">	
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doc){ %>
+							<%doc.mdtime.forEach(function(doct){ %>
+								<h4><%= doct; %></h4>	
+							<%});%>
+						<%});%>
+					<%}%>
+				</div>	
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			</div>
+		</div>
+		<div class="finalcomment">
+			<div class="row" >
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<h2>Final Comments</h2>		
+				</div>
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"></div>
+			</div>
+			<!-- <br> -->
+			<div class="row" >
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><p></p></div>
+				<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10"  >
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doct){ %>
+							<p style="word-wrap: break-word;"><%= doct.comment; %></p>	
+						<%});%>
+					<%}%>
+				</div>
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+			</div>
+		</div>
+		<div class="docinfo">
+			<div class="row" >
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"></div>
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<h3>Doctor Name</h3>
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doct){ %>
+							<p>Dr.<%= doct.docname %></p>	
+						<%});%>
+					<%}%>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="perfoo" id="perfoo" >
+	<footer>
+		<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-center">
+						© Copyright Hamdard University
+					</div>
+				</div>
+			</div>
+	</footer>
+</section>
+<script>
+	if (window.performance) {
+		console.info("window.performance work's fine on this browser");
+	}
+	if (performance.navigation.type == 1) {
+		console.info( "This page is reloaded" );
+	} else {
+		console.info( "This page is not reloaded");
+	}
+</script>
+</body>
+</html>
+
+

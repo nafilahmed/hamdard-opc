@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Create Schema
-const UserSchema = new Schema({
+const PractitionerSchema = new Schema({
   username:{
     type: String,
     required: true
@@ -11,18 +11,14 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  password:{
-    type: String,
-    required: true
-  },
   date: {
     type: Date,
     default: Date.now
   },
-  category:{
-    type: String,
+  amount:{
+    type: Number,
     required: true
   }
 });
 
-mongoose.model('users', UserSchema);
+mongoose.model('practitioners', PractitionerSchema);

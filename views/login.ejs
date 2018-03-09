@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hamdard OPC</title>
+    <title>Hamdar E-Doctor</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -12,7 +12,7 @@
 </head>
 <body>
 <section id="bar" class="bar">
-    <div class="bg-color" >
+    <div class="bg-color" ></div>
     <nav class="navbar navbar-default navbar-fixed-top ">
       <div class="container">
         <div class="navbar-header">
@@ -26,11 +26,11 @@
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Sign Up<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="/registeration">Paitent</a></li>
-                <li><a href="/registeration">Doctor</a></li>
-              </ul>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Signup<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/pratitionersignup">Practitioner</a></li>
+                    <li><a href="/doctorsignup">Doctor</a></li>
+                </ul>
             </li>
           </ul>
         </div>
@@ -47,7 +47,7 @@
                             <p><strong>Error:</strong><%= locals.error %></p>
                         </div>
                     <%} %>
-                    <form class="form-horizontal" action="/login" method="POST">
+                    <form class="form-horizontal" action="/login" method="POST" >
                         <div class="form-group">
                             <label class="control-label col-sm-5" for="email">Email:</label>
                             <div class="col-sm-4">
@@ -64,7 +64,7 @@
                             <div class="col-sm-offset-1 col-sm-12">
                                 <div class="checkbox">
                                   <label><input type="checkbox" name="remember"> Remember me</label>
-                                  <button type="submit" class="btn btn-success">Login</button>  
+                                  <a href=""><button type="submit" class="btn btn-success">Login</button></a>
                                 </div>
                             </div>
                         </div>
@@ -76,20 +76,20 @@
             </div>
         </div>  
     </div>
-    </div>
 </section>
 
+<section id="foo" class="foo">
     <footer id="footer">
         <div class="top-footer">
             <div class="container">
                 <div class="row">
                     <div class="col-md-4 col-sm-4 marb20">
-                        <div class="ftr-tle">
-                            <h4 class="white no-padding">About Us</h4>
-                        </div>
-                        <div class="info-sec">
-                            <p>Praesent convallis tortor et enim laoreet, vel consectetur purus latoque penatibus et dis parturient.</p>
-                        </div>
+                            <div class="ftr-tle">
+                                <h4 class="white no-padding">About Us</h4>
+                            </div>
+                            <div class="info-sec">
+                                <p>Praesent convallis tortor et enim laoreet, vel consectetur purus latoque penatibus et dis parturient.</p>
+                            </div>
                     </div>
                     <div class="col-md-4 col-sm-4 marb20">
                         <div class="ftr-tle">
@@ -115,6 +115,7 @@
                 </div>
             </div>
         </div>
-    </footer>   
+    </footer>
+</section>  
 </body>
 </html>
