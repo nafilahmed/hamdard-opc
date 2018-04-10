@@ -26,7 +26,7 @@
 			        <span class="icon-bar"></span>
 			        <span class="icon-bar"></span>                        
 			      </button>
-			      <a class="navbar-brand" href="/"><img src="img/Hamdard.png" class="img-responsive" style="height: 50px; width:90px; margin-top: 0+px;"></a>
+			      <a class="navbar-brand" href="/"><img src="img/Hamdard.png" class="img-responsive" style="height: 50px; width:90px;"></a>
 			    </div>
 			    <div class="collapse navbar-collapse" id="myNavbar">
 			      <ul class="nav navbar-nav navbar-right">
@@ -41,29 +41,51 @@
 			    </div>
 			  </div>
 			</nav>
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-sm-3" ></div>
-					<div class="col-sm-6" 
-					style=" margin-top: 100px;">
-						<div class="chatbox" id="chatbox">
-							<h1>Hamdard Chat-Box</h1>
-							<div id="chat-window">
-								<div id="output"></div>
+<div class="container-fluid">
+				<div class="docchat" >
+					<div class="row">
+						<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+						<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+							<div class="container-fluid">
+								<div class="chatbox" id="chatbox">
+									<h1>Hamdard Chat-Box</h1>
+									<div id="chat-window">
+										<div id="output"></div>
+									</div>
+						            <input id="handle" type="text" value="<%= user.username %>" />
+						            <input id="message" type="text" placeholder="Message" />
+						            <button id="send"><strong>Send</strong> </button>
+						            <button id="myBtn"> <strong>Vedio Call</strong></button>
+								</div>
+								
+					        </div>
+					        <br><br><br><br>					
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"  >
+							<div class="cata" id="cata">
+								<a href="/patienthistory"><span class="glyphicon glyphicon-folder-open"></span> Patient History</a>
+								<br><br><a href="/patienthistory"><span class="glyphicon glyphicon-folder-open"></span> Patient History</a>
 							</div>
-				            <input id="handle" type="text" value="<%= user.username %>" />
-				            <input id="message" type="text" placeholder="Message" />
-				            <button id="send"><strong>Send</strong> </button>
-				            <button id="myBtn"> <strong>Vedio Call</strong></button>
 						</div>
 					</div>
-					<div class="col-sm-3"></div>
 				</div>
-	        </div>	
+			</div>	
+		</div>
+		<div id="myModal" class="modal fade" role="dialog"  >
+		  <div class="modal-dialog"  >
+		    <div class="modal-content" style="text-align: center;">
+		      <div class="modal-body" style="background: rgba(28,74,90, 0.7); color:#fff;" >
+		        <p>Your Prescription has been saved.</p>
+		        <% if (locals.visit) { %>
+					<a href="/prescription?visit=<%= visit %>" id="chatreq" class="btn btn-success" target="_blank" ><strong>Ok</strong></a>	
+				<% } %>	        
+		        <button type="button" class="btn btn-success" id="chatreqno" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
 		</div>
 	</section>
-	<section>
-	</section>
+
 	<footer id="footer">
 		<div class="top-footer">
 			<div class="container">
@@ -101,6 +123,19 @@
 			</div>
 		</div>
 	</footer>
+		<% if (locals.patinfo)
+		{ %>
+			<script>
+				var patage ="<%= patinfo.patage %>";
+				var pattemp ="<%= patinfo.pattemp %>";
+				var patblood1 ="<%= patinfo.patblood1 %>";
+				var patblood2 ="<%= patinfo.patblood2 %>";
+				var patsugar1 ="<%= patinfo.patsugar1 %>";
+				var patsugar2 ="<%= patinfo.patsugar2 %>";
+				var patpluse ="<%= patinfo.patpluse %>";
+				var patO2 ="<%= patinfo.patO2 %>";
+			</script>
+	<% } %>
 	<script>
 		var myName = document.querySelector("#handle");
 		var myMessage = document.querySelector("#message");
@@ -112,17 +147,16 @@
 		var SIGNAL_ROOM = "<%= locals.docid %>";
 				
 		io = io.connect();
+
+		io.on('prescription', function(data) {
+			$("#myModal").modal();
+		});
+		
 		io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
 		
 		if (cat == "patient") {		
-			io.emit('request', {"message":"<%= user._id %>", "room":ROOM});
+			io.emit('patinfo', {"patname": "<%= user.username %>","patid": "<%= user._id %>","patage": patage , "pattemp": pattemp , "patblood1": patblood1 , "patblood1": patblood1 ,"patblood2": patblood2 , "patsugar1": patsugar1 , "patsugar2": patsugar2 ,"patpluse": patpluse ,"patO2": patO2 , "room":ROOM});
 		}
-		
-		io.on('request', function(data) {
-			patid = data.message;
-			// 	
-		});
-		
 
 		io.on('message', function(data) {
 			displayMessage(data.author + ": " + data.message);

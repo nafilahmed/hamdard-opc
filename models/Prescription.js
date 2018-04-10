@@ -13,9 +13,9 @@ const PrescriptionSchema = new Schema({
     type: String,
     required: true
   },
-  docid:{
+  docemail:{
     type: String,
-    default: "not define"
+    required: true
   },
   patname:{
     type: String,
@@ -23,7 +23,7 @@ const PrescriptionSchema = new Schema({
   },
   docname:{
     type: String,
-    default: "not define"
+    required: true
   },
   patage:{
     type: String,
@@ -51,19 +51,31 @@ const PrescriptionSchema = new Schema({
   },
   mdnam:{
     type: Array,
-    default: "not required"
+    required: true
+  },
+  test:{
+    type: Array,
+    required: true
   },
   medamount:{
     type: Array,
-    default: "not required"
+    required: true
   },
   mdtime:{
     type: Array,
-    default: "not required"
+    required: true
   },
   comment:{
     type: String,
-    default: "none"
+    required:true
+  },
+  patpluse:{
+    type: String,
+    required: true
+  },
+  patO2:{
+    type: String,
+    required: true
   },
   visit:{
     type: Number,

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hamdar E-Doctor</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<!-- <script src="/socket.io/socket.io.js"></script> -->
+<script>
+	$(document).ready(function(){
+		// var arr = 0;
+		// $("#array").val(arr);
+	    $("#btn-copy").on('click', function(){
+			// arr =  arr+1;
+			var ele = $(this).closest('.med').clone(true);
+			$(this).closest('.med').after(ele);
+			// $("#array").val(arr);
+		});
+		$(document).on("click", "#btn-dele", function(e) {
+			// if(arr >= 1 ){
+			// 	arr =  arr-1;
+				var $e = $(e.currentTarget);
+				$e.closest('.med').remove();
+				// $("#array").val(arr);
+			// } 
+			e.preventDefault();
+		});
+	});
+</script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<section id="patient-bar" class="patient-bar">
+	<!-- <div class="bg-color" id="bg-color" ></div> -->
+	<nav class="navbar navbar-default navbar-fixed-top ">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>                        
+	      </button>
+	      <a class="navbar-brand" href="/"><img src="img/Hamdard.png" class="img-responsive" style="height: 50px; width:90px; margin-top: 0+px;"></a>
+	    </div>
+	    <div class="collapse navbar-collapse" id="myNavbar">
+	      <ul class="nav navbar-nav navbar-right">
+	      	<% if (locals.user) { %>
+	      		<li><a href="/"><span class="glyphicon glyphicon-user"></span> <%= user._id %></a></li>	
+				<li><a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>				
+			<% } %>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+</section>
+<section id="docchat" class="docchat">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"><h3>Patient Information</h3></div>
+					<div class="panel-body">
+						<div class="container">
+							<p style="font-size: 16px; font-weight: bold;">Patient Name: <span id="patname"></span><br>Age: <span id="patage"></span><br>Temperature: <span id="pattemp"></span><br>Sugar Level: <span id="patsugar1"></span> - <span id="patsugar2"></span><br>Blood Pressure: <span id="patblood1"></span> - <span id="patblood2"></span><br>Pluse rate: <span id="patpluse"></span><br>O2: <span id="patO2"></span></p>
+						</div>
+					</div>
+					<!-- <div class="panel-footer">Panel Footer</div> -->
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				<div class="panel-group">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<div class="row" >
+								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" >
+									<h3>Add Medicine</h3>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" >
+									<h4 class="panel-title">
+										<a data-toggle="collapse" href="#collapse1"><span class="glyphicon glyphicon-plus-sign"></span></a>
+									</h4>
+								</div>	
+							</div>
+						</div>
+						<div id="collapse1" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="container" style="width:100%;">
+									<div id="med" class="med" >
+										<div class="form-horizontal">
+											<div class="form-group">
+												<label class="control-label col-sm-3" for="email">Medicine-Name:</label>
+												<div class="col-sm-9">
+													<input form="medicine" type="text" class="form-control" id="mdnam" placeholder="Enter Medicine Name" name="mdnam" value="med1" >
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="control-label col-sm-3" for="mdtime">Times:</label>
+												<div class="col-sm-9">
+													<select form="medicine" name="mdtime" class="form-control" id="sel1">
+														<option>Thrice in a day</option>
+														<option>Twice in a day</option>
+														<option>One's in a day</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="control-label col-sm-3" for="medamount">Medicine-Amount:</label>
+												<div class="col-sm-9">
+													<input form="medicine" type="text" class="form-control" id="medamount" placeholder="Enter Medicine Amount" name="medamount" value="1 tbs" >
+												</div>
+											</div>
+										</div>	
+										<div id="addremove" class="col-sm-offset-3 col-sm-9">
+											<button id="btn-copy" class="btn btn-success">Add more</button>
+											<button id="btn-dele" class="btn btn-danger">Remove</button>
+										</div>
+									</div>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>
+				<form class="form-horizontal" id="medicine"  action="/prescription" >
+					<div class="form-group" >
+						<input id="visit" type="hidden" name="visit">
+						<label for="comment" style="font-size: 18px;" >Final Comment</label>
+						<textarea required name="comment" class="form-control" rows="5" id="comment"></textarea>
+					</div>
+					<div id="save-btn" class="save-btn">
+						<button type="submit" class="btn btn-primary">Save</button>
+					</div>
+				</form>
+<% if (locals.patinfo) { 
+	patinfo.forEach(function(doc){ %>
+	<script>
+		var patname ="<%= doc.patname %>";
+		var patage ="<%= doc.patage %>";
+		var pattemp ="<%= doc.pattemp %>";
+		var patblood1 ="<%= doc.patblood1 %>";
+		var patblood2 ="<%= doc.patblood2 %>";
+		var patsugar1 ="<%= doc.patsugar1 %>";
+		var patsugar2 ="<%= doc.patsugar2 %>";
+		var patpluse ="<%= doc.patpluse %>";
+		var patO2 ="<%= doc.patO2 %>";
+		var visit ="<%= doc.visit %>";
+		document.getElementById("visit").value = visit;
+		document.getElementById('patname').innerHTML = patname;
+		document.getElementById('patage').innerHTML = patage;
+		document.getElementById('pattemp').innerHTML = pattemp;
+		document.getElementById('patblood1').innerHTML = patblood1;
+		document.getElementById('patblood2').innerHTML = patblood2;
+		document.getElementById('patsugar1').innerHTML = patsugar1;
+		document.getElementById('patsugar2').innerHTML = patsugar2;
+		document.getElementById('patpluse').innerHTML = patpluse;
+		document.getElementById('patO2').innerHTML = patO2;
+	</script>
+<% })}; %>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"  >
+				<div class="panel panel-primary">
+					<div class="panel-heading" style="text-align: center;"><h3>Lab Test List</h3></div>
+					<div class="panel-body">
+						<div class="container" style="width: 100%;">
+							<div class="table-responsive">          
+								<table class="table">
+									<tbody>
+										<tr>
+											<td><label><input form="medicine" type="checkbox" name="test" value="blood_test"> Blood Test</label></td>
+											<td><label><input form="medicine" type="checkbox" name="test" value="sugar_test"> Sugar Test</label></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="panel-footer">Panel Footer</div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section id="foo" class="foo">
+	<footer id="footer">
+		<div class="top-footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-sm-4 marb20">
+							<div class="ftr-tle">
+								<h4 class="white no-padding">About Us</h4>
+							</div>
+							<div class="info-sec">
+								<p>Praesent convallis tortor et enim laoreet, vel consectetur purus latoque penatibus et dis parturient.</p>
+							</div>
+					</div>
+					<div class="col-md-4 col-sm-4 marb20">
+						<div class="ftr-tle">
+							<h4 class="white no-padding">Quick Links</h4>
+						</div>
+						<div class="info-sec">
+							<ul class="quick-info">
+								<li><a href="index.html"><i class="fa fa-circle"></i>Home</a></li>
+								<li><a href="#service"><i class="fa fa-circle"></i>Service</a></li>
+								<li><a href="#contact"><i class="fa fa-circle"></i>Appointment</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer-line">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-center">
+						© Copyright Hamdard University
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+</section>
+
+</body>
+</html>

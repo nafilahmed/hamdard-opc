@@ -10,6 +10,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
 <section id="logo" class="logo" align="center"; >
@@ -67,13 +68,52 @@
 							<p>Temperature : <%= doct.pattemp; %></p>	
 						<%});%>
 					<%}%>
+					<table>
+						<tr>
 					<% if (locals.pres){%>
 						<%pres.forEach(function(doct){ %>
-								<p>Sugar Level : <%= doct.patsugar; %></p>	
+							<td>Sugar Level :</td>
+							<td> <%= doct.patsugar1; %> - </td>	
+						<%});%>
+					<%}%>
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doct){ %>
+							<td> <%= doct.patsugar2; %></td>	
+						<%});%>
+					<%}%>
+						</tr>
+					</table>
+
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doct){ %>
+							<p>Pluse rate : <%= doct.patpluse; %></p>	
+						<%});%>
+					<%}%>
+
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doct){ %>
+							<p>O2 Level : <%= doct.patO2; %></p>
+							<script> </script>	
 						<%});%>
 					<%}%>
 				</div>
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" >
+					<% if ( user.category == "patient"){%>
+						<br>
+						<button onclick="myfun()" type="button" class="btn btn-success">Print out</button>
+					<% }else{ %>
+						<% if (locals.doctor){ %>
+							<script>
+								var ROOM="<%= doctor._id %>";
+								
+								io = io.connect();
+
+								alert('<%= doctor._id %>');
+								io.emit('prescription', {"message":"check your prescription", "room":ROOM});	
+							</script>
+						<% } %>	
+					<% } %>
+				</div>
 			</div>	
 		</div>
 		<div id="med"  class="med">
@@ -117,6 +157,29 @@
 					<%}%>
 				</div>	
 				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			</div>
+		</div>
+		<div id="med"  class="med">
+			<div class="row" >
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<h2>Test's</h2>		
+				</div>
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"></div>
+			</div>
+			<!-- <br> -->
+			<div class="row">
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>	
+					<% if (locals.pres){%>
+						<%pres.forEach(function(doc){ %>
+							<%doc.test.forEach(function(doct){ %>
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+								<h4><%= doct; %></h4>
+							</div>	
+							<%});%>
+						<%});%>
+					<%}%>				
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
 			</div>
 		</div>
 		<div class="finalcomment">
@@ -167,14 +230,9 @@
 	</footer>
 </section>
 <script>
-	if (window.performance) {
-		console.info("window.performance work's fine on this browser");
-	}
-	if (performance.navigation.type == 1) {
-		console.info( "This page is reloaded" );
-	} else {
-		console.info( "This page is not reloaded");
-	}
+function myfun() {
+    window.print();
+}
 </script>
 </body>
 </html>

@@ -1,44 +1,34 @@
 {
-  "name": "hamdard-opc-e-doctor",
-  "version": "0.0.1",
-  "private": true,
+  "name": "vidjot",
+  "version": "1.0.0",
+  "description": "App to create video ideas",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brad Traversy",
+  "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
-    "coffe-script": "0.0.1-security",
-    "connect": "^3.6.5",
     "connect-flash": "^0.1.1",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
+    "express-pdf": "^1.2.2",
     "express-session": "^1.15.6",
     "express.io": "^1.1.13",
     "mongoose": "^5.0.0-rc1",
+    "nodemailer": "^4.6.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "textbelt": "0.0.3",
-    "twilio": "^3.11.3"
+    "pdf-maker": "0.0.2",
+    "pdfmake": "^0.1.35",
+    "sendmail": "^1.2.0",
+    "serialport": "^6.0.5",
+    "twilio": "^3.13.0"
   },
-  "scripts": {
-    "start": "node app.js"
-  },
-  "description": "University Project",
-  "main": "app.js",
   "devDependencies": {
-    "nodemon": "^1.14.12"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/engrrbilal/hamdard-opc-e-doctor.git"
-  },
-  "keywords": [
-    "hamdard-opc",
-    "e-doctor"
-  ],
-  "author": "Muhammad Bilal,Nafil Ahmed",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/engrrbilal/hamdard-opc/issues"
-  },
-  "homepage": "https://github.com/engrrbilal/hamdard-opc#readme"
+    "nodemon": "^1.14.11"
+  }
 }

@@ -33,12 +33,12 @@
     background: url('../img/bg-banner.jpg') no-repeat fixed;
     background-size: cover;
 
-    height: 650px;
+    height: 800px;
     position: relative;
 }
 .bg-color{
     background-color: RGBA(204,255,153,0.4);
-    height: 650px;
+    height: 800px;
 }
 
 #banner-text h1{
@@ -168,9 +168,26 @@ border: 2px #006400 solid
     /*padding-bottom: 20%;*/
 }
 
+#cata{
+    border:2px #3c763d solid;
+    /*text-align: center;*/
+    padding: 20%;
+    /*padding-top: 20%;*/
+    /*padding-bottom: 20%;*/
+}
+
 #cat > a{
     /*padding: 20%;*/
     /*font-weight: bold; */
+    /*color:#3c763d;*/
+    font-size: 18px;
+    border-bottom:3px #808080 solid; 
+}
+
+#cata > a{
+    /*padding: 20%;*/
+    /*font-weight: bold; */
+    color:#3c763d;
     font-size: 18px;
     border-bottom:3px #808080 solid; 
 }

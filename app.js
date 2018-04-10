@@ -8,8 +8,20 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const twilio = require('twilio');
 const fs = require('fs');
+
 const app = express();
 app.http().io();
+// DB Config
+const db = require('./config/database');
+
+mongoose.Promise = global.Promise;
+
+// Connect to mongoose
+mongoose.connect(db.mongoURI, {
+	//   useMongoClient: true
+})
+	.then(() => console.log('MongoDB Connected...'))
+	.catch(err => console.log(err));
 require('./models/Users');
 const Users = mongoose.model('users');
 
@@ -25,22 +37,11 @@ const Practitioners = mongoose.model('practitioners');
 require('./models/Prescription');
 const Prescriptions = mongoose.model('prescriptions');
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 // Passport Config
 require('./config/passport')(passport);
-// DB Config
-const db = require('./config/database');
 
-mongoose.Promise = global.Promise;
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Connect to mongoose
-mongoose.connect(db.mongoURI, {
-	//   useMongoClient: true
-})
-	.then(() => console.log('MongoDB Connected...'))
-	.catch(err => console.log(err));
-	
 app.set('view engine', 'ejs');
 
 
@@ -129,6 +130,14 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login',(req, res, next)=>{
+	if (req.user) {
+		if (req.user.category == "practitioner") {
+			Users.updateOne({"email": req.body.email},{$set:{"status":req.user.email}})
+			.then(patinfo =>{
+				console.log("updated");
+			});
+		}
+	}
 	passport.authenticate('user-local', {
 		successRedirect:'/',
 		failureRedirect: '/login',
@@ -139,37 +148,56 @@ app.post('/login',(req, res, next)=>{
 app.get('/doctorcategory',(req,res)=>{
 	if (req.user) {
 		if (req.user.category == "patient") {
-			Prescriptions.find({"patid": req.user._id}).count()
-			.then( vesit =>{
-				var d = new Date();
-				var n = d.getTime();
-				const newPrescriptions = new Prescriptions({
-			        time : n,
-			        patid: req.user._id,
-			    	patname: req.user.username,
-					patage: req.param('patage'),
-					pattemp: req.param('pattemp'),
-					patblood1: req.param('patblood1'),
-					patblood2: req.param('patblood2'),
-					patsugar1: req.param('patsugar1'),
-					patsugar2: req.param('patsugar2'),
-					visit: vesit+1
-			    });
-			    newPrescriptions.save()
-			    .then(demo => {
-			    	Doctor.distinct("specialization")
-					.then(spec => {
-						res.render('doctorcategory',{
-							spec : spec
+			if (req.param('patage')) {
+				Prescriptions.find({"patid": req.user._id}).count()
+				.then( vesit =>{
+					var d = new Date();
+					var n = d.getTime();
+					const newPrescriptions = new Prescriptions({
+				        time : n,
+				        patid: req.user._id,
+				    	patname: req.user.username,
+				    	docemail:"none",
+				    	docname:"none",
+				    	mdnam:"none",
+				    	medamount:"none",
+				    	mdtime:"none",
+						comment : "none",
+						test : "none",
+						patage: req.param('patage'),
+						pattemp: req.param('pattemp'),
+						patblood1: req.param('patblood1'),
+						patblood2: req.param('patblood2'),
+						patsugar1: req.param('patsugar1'),
+						patsugar2: req.param('patsugar2'),
+						patpluse: req.param('patpluse'),
+						patO2: req.param('patO2'),
+						visit: vesit+1
+				    });
+				    newPrescriptions.save()
+				    .then(demos => {
+				    	Practitioners.updateOne({"email":req.user.status},{$inc:{"amount":250}})
+						.then(demo=>{
+							res.redirect('/doctorcategory');
 						});
-					});	
-			    });
-			});
+				    		
+				    });
+				});
+			} else {
+				Doctor.distinct("specialization")
+				.then(spec => {
+					res.render('doctorcategory',{
+						spec : spec
+					});
+				});
+			}	
 		}else{
 			res.redirect('/');
 		}
 	}else{
-		res.render('index');
+		res.render('login',{
+			error : "Login First"
+		});
 	}
 });
 
@@ -186,54 +214,42 @@ app.get('/doctorselection',(req,res)=>{
 			res.redirect('/');
 		}
 	}else{
-		res.render('index');
+		res.render('login',{
+			error : "Login First"
+		});
 	}
 });
 
 app.get('/call', (req, res) => {
 	if (req.user) {
-		if (req.user.category == "practitioner") {
-			Practitioners.find({"email": req.user.email})
-			.then(practitioner =>{
-				res.render('practitioner',{
-					practitioner : practitioner,
-				});
-			});
-		}else if (req.user.category == "patient") {
+		if (req.user.category == "patient") {
 			Doctor.findById(req.param('peerid'), function (err, doc){
 
-			const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
-			const authToken = 'fec629ef370ad8ac8680256ab31571a3';
-			const client = require('twilio')(accountSid, authToken);
-			//Make a call
-			client.calls.create({
-				url: 'https://handler.twilio.com/twiml/EHc268de41386b56d246a2ddfffa107426',
-				to: '+923473824037',
-				from: '(720) 605-3224',
-			},function(err, call){
-				if(err){
-					console.log(err);
-				}
-				else{
-					console.log(call.sid);
-				}
-			});
-
-				// res.render('patient',{
-				// 	patient : patient,
-				// });
-			});
-		}else{
-			Doctor.find({"email": req.user.email})
-			.then(doctor =>{
-				res.render('doctor',{
-					doctor : doctor,
+				const accountSid = 'AC65c8d3d2adbd1d8ee857ee09d9cb5007';
+				const authToken = 'fec629ef370ad8ac8680256ab31571a3';
+				const client = require('twilio')(accountSid, authToken);
+				//Make a call
+				client.calls.create({
+					url: 'https://handler.twilio.com/twiml/EHc268de41386b56d246a2ddfffa107426',
+					to: '+92'+doc.contact,
+					from: '(720) 605-3224',
+				},function(err, call){
+					if(err){
+						console.log(err);
+					}
+					else{
+						console.log(call.sid);
+					}
 				});
 			});
+		}else{
+			res.redirect('/');
 		}
 	}
 	else{
-		res.render('index');		
+		res.render('login',{
+			error : "Login First"
+		});		
 	}
 });
 
@@ -270,14 +286,27 @@ app.get('/pratitionersignup', (req, res) => {
 app.get('/chat', (req, res) => {
 	if (req.user) {
 		if (req.user.category == "patient") {
-			res.render('chat',{
-				docid: req.param('id')
+			Prescriptions.find({"patid": req.user._id}).count()
+			.then( vesit =>{
+				Doctor.findById(req.param('id'), function (err, doc){
+					Prescriptions.findOneAndUpdate({"visit": vesit,"patid": req.user._id},{$set:{docemail:doc.email}})
+					.then(patinfo =>{
+						res.render('chat',{
+							docid: req.param('id'),
+							patinfo : patinfo,
+							visit:vesit
+						});						
+					});				
+				});
+				
 			});
+		}else if (req.user.category == "practitioner") {
+			res.redirect('/');
 		}else{
-			res.render('chat',{
+			res.render('doctorchat',{
 				doct: "doc",
 				docid: req.param('id')
-			});
+			});		
 		}
 	}
 	else{
@@ -301,9 +330,106 @@ app.get('/video', function(req, res){
 	}
 });
 
+app.get('/docchat', (req, res) => {
+	if (req.user) {
+		if (req.user.category == "practitioner") {
+			res.redirect('/');
+		}else if (req.user.category == "patient") {
+			res.redirect('/');
+		}else{
+			Prescriptions.find({"docemail":req.user.email}).sort({_id:-1}).limit(1)
+			.then(patinfo=>{
+				res.render('docchat',{
+					patinfo : patinfo
+				});
+			});
+
+		}
+	}
+	else{
+		res.render('login',{
+			error : "Login First"
+		});		
+	}
+});
+
+app.get('/prescription', function(req, res){
+	if (req.user) {
+		if (req.user.category == "patient") {		
+			Prescriptions.find({"patid": req.user._id ,"visit" : req.param('visit') })
+	    	.then( pres =>{
+				res.render('prescription',{
+					pres : pres,
+				});
+			});
+		}else if (req.user.category == "practitioner") {
+			res.redirect('/');
+		}else{
+			Prescriptions.updateOne({"docemail": req.user.email, "visit":req.param('visit')},{$set:{
+				mdnam : req.param('mdnam'),
+				medamount : req.param('medamount'),
+				mdtime : req.param('mdtime'),
+				comment : req.param('comment'),
+				test : req.param('test'),
+				docname:req.user.username
+			}})
+			.then(pat =>{
+				Prescriptions.find({"docemail":req.user.email}).sort({_id:-1}).limit(1)
+				.then(patinfo=>{
+					Doctor.findOneAndUpdate({"email":req.user.email},{$inc:{"amount":250}})
+					.then(demo=>{
+						res.render('prescription',{
+							pres : patinfo,
+							doctor:demo
+						});
+					});
+				});						
+			})
+			.catch(err => {
+				console.log(err);
+			});		
+		}
+	}
+	else{
+		res.render('login',{
+			error : "Login First"
+		});		
+	}
+});
+
+app.get('/patienthistory', (req, res) => {
+	if (req.user) {
+		if (req.user.category == "patient") {
+			Prescriptions.find()
+			.then(pres => {
+				if(pres){
+					res.render('patienthistory',{
+						pres : pres
+					});
+				}
+			});	
+		}else if (req.user.category == "practitioner") {
+			res.redirect('/');
+		}else{
+			res.redirect('/');
+		}
+	}
+	else{
+		res.render('login',{
+			error : "Login First"
+		});		
+	}
+});
+
 app.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
+	if (req.user) {
+		Users.updateOne({"email": req.user.email},{$set:{"status":"logout"}})
+		.then(patinfo =>{
+			console.log("logout");
+		});	
+	}
+	req.logout();
+	res.redirect('/');
 });
 
 app.post('/pratitionersignup',(req,res)=>{
@@ -348,6 +474,7 @@ app.post('/pratitionersignup',(req,res)=>{
 		            username: req.body.username,
 		            email: req.body.email,
 		            password: req.body.password,
+		            status:"logout",
 		            category: "practitioner"
 		        });
 				bcrypt.genSalt(10, (err, salt) => {
@@ -450,6 +577,7 @@ app.post('/doctorsignup',(req,res)=>{
 		            username: req.body.username,
 		            email: req.body.email,
 		            password: req.body.password,
+		            status:"logout",
 		            category: "doctor"
 		        });
 				bcrypt.genSalt(10, (err, salt) => {
@@ -505,7 +633,9 @@ app.get('/patientsignup', (req, res) => {
 		}
 	}
 	else{
-		res.render('index');		
+		res.render('login',{
+			error : "Practitioner Login First"
+		});		
 	}
 });
 
@@ -551,6 +681,7 @@ app.post('/patientsignup',(req,res)=>{
 		            username: req.body.username,
 		            email: req.body.nic,
 		            password: req.body.password,
+		            status:"logout",
 		            category: "patient"
 		        });
 				bcrypt.genSalt(10, (err, salt) => {
@@ -587,7 +718,6 @@ app.listen(port, () =>{
   console.log(`Server started on port ${port}`);
 });
 
-
 app.io.route('ready', function(req) {
 	req.io.join(req.data.chat_room);
 	req.io.join(req.data.signal_room);
@@ -615,6 +745,29 @@ app.io.route('request', function(req) {
 	//Note the use of req here for broadcasting so only the sender doesn't receive their own messages
 	req.io.room(req.data.room).broadcast('request', {
 		message: req.data.message
+    });
+});
+
+app.io.route('prescription', function(req) {
+	//Note the use of req here for broadcasting so only the sender doesn't receive their own messages
+	req.io.room(req.data.room).broadcast('prescription', {
+		message: req.data.message
+    });
+});
+
+app.io.route('patinfo', function(req) {
+	//Note the use of req here for broadcasting so only the sender doesn't receive their own messages
+	req.io.room(req.data.room).broadcast('patinfo', {
+		patid: req.data.patid,
+		patname: req.data.patname,
+		patage: req.data.patage,
+		pattemp: req.data.pattemp,
+		patblood1: req.data.patblood1,
+		patblood2: req.data.patblood2,
+		patsugar1: req.data.patsugar1,
+		patsugar2: req.data.patsugar2,
+		patpluse: req.data.patpluse,
+		patO2: req.data.patO2,
     });
 });
 
