@@ -290,6 +290,7 @@ app.get('/chat', (req, res) => {
 			Prescriptions.find({"patid": req.user._id}).count()
 			.then( vesit =>{
 				Doctor.findById(req.param('id'), function (err, doc){
+					
 					Prescriptions.findOneAndUpdate({"visit": vesit,"patid": req.user._id},{$set:{docemail:doc.email}})
 					.then(patinfo =>{
 						res.render('chat',{
@@ -366,12 +367,17 @@ app.get('/prescription', function(req, res){
 		}else if (req.user.category == "practitioner") {
 			res.redirect('/');
 		}else{
+			if (req.param('test')) {
+				var test = req.param('test');
+			} else {
+				var test = "Not required";
+			}
 			Prescriptions.updateOne({"docemail": req.user.email, "visit":req.param('visit')},{$set:{
 				mdnam : req.param('mdnam'),
 				medamount : req.param('medamount'),
 				mdtime : req.param('mdtime'),
 				comment : req.param('comment'),
-				test : req.param('test'),
+				test : test,
 				docname:req.user.username
 			}})
 			.then(pat =>{

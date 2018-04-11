@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title>O'Reilly Introduction to WebRTC</title>
+		<title>Hamdard OPC</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<script src="/socket.io/socket.io.js"></script>
 	</head>
@@ -10,7 +10,7 @@
 		<video width='640' height='360' id="theirVideoTag" autoplay></video>
         <div id="mario-chat">
             <button id="cBtn">End Call</button>
-            <div id="signalingArea">Signaling Messages:</br></div>
+            <!-- <div id="signalingArea">Signaling Messages:</br></div> -->
         </div>
 		
 		<script>
@@ -37,7 +37,7 @@
 						
 			io.on('signaling_message', function(data) {
 
-				displaySignalMessage("Signal received: " + data.type);
+				// displaySignalMessage("Signal received: " + data.type);
 				
 				//Setup the RTC Peer Connection object
 				if (!rtcPeerConn)
@@ -80,7 +80,7 @@
 			function startSignaling() {
 
 
-				displaySignalMessage("starting signaling...");
+				// displaySignalMessage("starting signaling...");
 				
 				rtcPeerConn = new webkitRTCPeerConnection(configuration);
 				
@@ -88,28 +88,28 @@
 				rtcPeerConn.onicecandidate = function (evt) {
 					if (evt.candidate)
 						io.emit('signal',{"type":"ice candidate", "message": JSON.stringify({ 'candidate': evt.candidate }), "room":SIGNAL_ROOM});
-					displaySignalMessage("completed that ice candidate...");
+					// displaySignalMessage("completed that ice candidate...");
 				};
 				
 				// let the 'negotiationneeded' event trigger offer generation
 				rtcPeerConn.onnegotiationneeded = function () {
-					displaySignalMessage("on negotiation called");
+					// displaySignalMessage("on negotiation called");
 					rtcPeerConn.createOffer(sendLocalDesc, logError);
 				}
 				
 				// once remote stream arrives, show it in the remote video element
 				rtcPeerConn.onaddstream = function (evt) {
-					displaySignalMessage("going to add their stream...");
+					// displaySignalMessage("going to add their stream...");
 					theirVideoArea.src = URL.createObjectURL(evt.stream);
 				};
 				
 				// get a local stream, show it in our video tag and add it to be sent
 				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 				navigator.getUserMedia({
-					'audio': false,
+					'audio': true,
 					'video': true
 				}, function (stream) {
-					displaySignalMessage("going to display my stream...");
+					// displaySignalMessage("going to display my stream...");
 					myVideoArea.src = URL.createObjectURL(stream);
 					rtcPeerConn.addStream(stream);
 				}, logError);
@@ -118,7 +118,7 @@
 			
 			function sendLocalDesc(desc) {
 				rtcPeerConn.setLocalDescription(desc, function () {
-					displaySignalMessage("sending local description");
+					// displaySignalMessage("sending local description");
 					io.emit('signal',{"type":"SDP", "message": JSON.stringify({ 'sdp': rtcPeerConn.localDescription }), "room":SIGNAL_ROOM});
 				}, logError);
 			}
