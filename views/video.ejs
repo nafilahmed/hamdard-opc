@@ -80,7 +80,7 @@
 			function startSignaling() {
 
 
-				// displaySignalMessage("starting signaling...");
+				displaySignalMessage("starting signaling...");
 				
 				rtcPeerConn = new webkitRTCPeerConnection(configuration);
 				
@@ -88,28 +88,51 @@
 				rtcPeerConn.onicecandidate = function (evt) {
 					if (evt.candidate)
 						io.emit('signal',{"type":"ice candidate", "message": JSON.stringify({ 'candidate': evt.candidate }), "room":SIGNAL_ROOM});
-					// displaySignalMessage("completed that ice candidate...");
+					displaySignalMessage("completed that ice candidate...");
 				};
 				
 				// let the 'negotiationneeded' event trigger offer generation
 				rtcPeerConn.onnegotiationneeded = function () {
-					// displaySignalMessage("on negotiation called");
+					displaySignalMessage("on negotiation called");
 					rtcPeerConn.createOffer(sendLocalDesc, logError);
 				}
 				
 				// once remote stream arrives, show it in the remote video element
 				rtcPeerConn.onaddstream = function (evt) {
-					// displaySignalMessage("going to add their stream...");
+					displaySignalMessage("going to add their stream...");
 					theirVideoArea.src = URL.createObjectURL(evt.stream);
 				};
-				
+
+				//setting constraints
+				var constraints = {
+                    video: {
+                         mandatory: {
+                         minWidth: 640,
+                         minHeight: 480
+                       }
+                       },
+                    audio: true
+                };
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent)) {
+                // The user is using a mobile device, lower our minimum
+                  constraints = {
+                     video: {
+                         mandatory: {
+                         minWidth: 480,
+                         minHeight: 320,
+                         maxWidth: 1024,
+                         maxHeight: 768
+                        }
+                    },
+                    audio: true
+                  };
+                }
+
+
 				// get a local stream, show it in our video tag and add it to be sent
 				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-				navigator.getUserMedia({
-					'audio': true,
-					'video': true
-				}, function (stream) {
-					// displaySignalMessage("going to display my stream...");
+				navigator.getUserMedia(constraints, function (stream) {
+					displaySignalMessage("going to display my stream...");
 					myVideoArea.src = URL.createObjectURL(stream);
 					rtcPeerConn.addStream(stream);
 				}, logError);
