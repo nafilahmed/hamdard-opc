@@ -43,7 +43,7 @@
 			<div class="container-fluid">
 				<div class="docchat" >
 					<div class="row">
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+						<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 							<div class="panel panel-success">
 								<div class="panel-heading"><h3>Patient Information</h3></div>
 								<div class="panel-body">
@@ -53,7 +53,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 							<div class="container-fluid">
 								<div class="chatbox" id="chatbox">
 									<h1>Hamdard Chat-Box</h1>
@@ -65,14 +65,18 @@
 						            <button id="send"><strong>Send</strong> </button>
 						            <button id="myBtn"> <strong>Vedio Call</strong></button>
 								</div>
-								
+								<br><br><br><br>
 					        </div>
 					        <br><br><br><br>					
 						</div>
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"  >
+						<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12"  >
 							<div class="cata" id="cata">
-								<a href="/patienthistory"><span class="glyphicon glyphicon-folder-open"></span> Patient History</a>
-								<!-- <br><br><a href="/patienthistory"><span class="glyphicon glyphicon-folder-open"></span> Patient History</a> -->
+								<form action="/patienthistory" method="POST" >
+									<button type="submit" name="his" id="his" class="btn btn-link"><span class="glyphicon glyphicon-folder-open"></span> Patient History</button>
+									<br>
+									<button type="submit" name="his" id="his" class="btn btn-link"><span class="glyphicon glyphicon-folder-open"></span> Patient History</button>
+								</form>
+								
 							</div>
 						</div>
 					</div>
@@ -80,8 +84,7 @@
 			</div>	
 		</div>
 	</section>
-	<section>
-	</section>
+
 	<footer id="footer">
 		<div class="top-footer">
 			<div class="container">
@@ -133,12 +136,9 @@
 		io = io.connect();
 		io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
 		
-		if (cat == "patient") {		
-			io.emit('request', {"message":"<%= user._id %>", "room":ROOM});
-		}
-		
 		io.on('patinfo', function(data) {
 			if (data != null) {
+				document.getElementById("his").value = data.patemail;
 				document.getElementById('patname').innerHTML = data.patname;
 				document.getElementById('patage').innerHTML = data.patage;
 				document.getElementById('pattemp').innerHTML = data.pattemp;

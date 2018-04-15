@@ -9,7 +9,7 @@ const PrescriptionSchema = new Schema({
     type: String,
     required: true
   },
-  patid:{
+  patemail:{
     type: String,
     required: true
   },

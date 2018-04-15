@@ -33,12 +33,12 @@
     background: url('../img/bg-banner.jpg') no-repeat fixed;
     background-size: cover;
 
-    height: 800px;
+    /*height: 800px;*/
     position: relative;
 }
 .bg-color{
     background-color: RGBA(204,255,153,0.4);
-    height: 800px;
+    /*height: 800px;*/
 }
 
 #banner-text h1{
@@ -49,18 +49,23 @@
 #banner-text{
     text-align: center;
     font-size: 20px;
-    margin-top: -550px;
+    margin-top: 100px;
     color:#006400;
+    margin-bottom: 200px;
 }
 
 #banner-text form{
-    margin-top: 20px;
+    /*margin-top: 20px;*/
 }
 
 .patient-bar .navbar-default{
     /*border:2px red solid;*/
     padding-bottom: 5px;
     background: rgba(28,74,90, 0.7);
+}
+
+.caption a > h3{
+    word-wrap: break-word;
 }
 
 .doctor-team{
@@ -180,13 +185,24 @@ border: 2px #006400 solid
     /*padding: 20%;*/
     /*font-weight: bold; */
     /*color:#3c763d;*/
+    word-wrap: break-word;
     font-size: 18px;
     border-bottom:3px #808080 solid; 
+}
+
+#cata > form > button{
+    /*padding: 20%;*/
+    /*font-weight: bold; */
+    word-wrap: break-word;
+    color:#3c763d;
+    font-size: 18px;
+    /*border-bottom:3px #808080 solid; */
 }
 
 #cata > a{
     /*padding: 20%;*/
     /*font-weight: bold; */
+    word-wrap: break-word;
     color:#3c763d;
     font-size: 18px;
     border-bottom:3px #808080 solid; 

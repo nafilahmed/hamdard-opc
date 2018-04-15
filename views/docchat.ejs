@@ -49,8 +49,7 @@
 	    </div>
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	      <ul class="nav navbar-nav navbar-right">
-	      	<% if (locals.user) { %>
-	      		<li><a href="/"><span class="glyphicon glyphicon-user"></span> <%= user._id %></a></li>	
+	      	<% if (locals.user) { %>	
 				<li><a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>				
 			<% } %>
 	      </ul>
@@ -61,18 +60,18 @@
 <section id="docchat" class="docchat">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading"><h3>Patient Information</h3></div>
 					<div class="panel-body">
 						<div class="container">
-							<p style="font-size: 16px; font-weight: bold;">Patient Name: <span id="patname"></span><br>Age: <span id="patage"></span><br>Temperature: <span id="pattemp"></span><br>Sugar Level: <span id="patsugar1"></span> - <span id="patsugar2"></span><br>Blood Pressure: <span id="patblood1"></span> - <span id="patblood2"></span><br>Pluse rate: <span id="patpluse"></span><br>O2: <span id="patO2"></span></p>
+							<p style="font-size: 16px; font-weight: bold; word-wrap: break-word;">Patient Name: <span id="patname"></span><br>Age: <span id="patage"></span><br>Temperature: <span id="pattemp"></span><br>Sugar Level: <span id="patsugar1"></span> - <span id="patsugar2"></span><br>Blood Pressure: <span id="patblood1"></span> - <span id="patblood2"></span><br>Pluse rate: <span id="patpluse"></span><br>O2: <span id="patO2"></span></p>
 						</div>
 					</div>
 					<!-- <div class="panel-footer">Panel Footer</div> -->
 				</div>
 			</div>
-			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 				<div class="panel-group">
 					<div class="panel panel-primary">
 						<div class="panel-heading">
@@ -133,6 +132,7 @@
 					</div>
 					<div id="save-btn" class="save-btn">
 						<button type="submit" class="btn btn-primary">Save</button>
+						<br><br>
 					</div>
 				</form>
 <% if (locals.patinfo) { 
@@ -161,7 +161,7 @@
 	</script>
 <% })}; %>
 			</div>
-			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"  >
+			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12"  >
 				<div class="panel panel-primary">
 					<div class="panel-heading" style="text-align: center;"><h3>Lab Test List</h3></div>
 					<div class="panel-body">
@@ -172,6 +172,14 @@
 										<tr>
 											<td><label><input form="medicine" type="checkbox" name="test" value="blood_test"> Blood Test</label></td>
 											<td><label><input form="medicine" type="checkbox" name="test" value="sugar_test"> Sugar Test</label></td>
+										</tr>
+										<tr>
+											<td><label><input form="medicine" type="checkbox" name="test" value="CT_scan"> CT scan</label></td>
+											<td><label><input form="medicine" type="checkbox" name="test" value="MRI"> MRI</label></td>
+										</tr>
+										<tr>
+											<td><label><input form="medicine" type="checkbox" name="test" value="X_ray"> X ray</label></td>
+											<td><label><input form="medicine" type="checkbox" name="test" value="Ultra-sound"> Ultra-sound</label></td>
 										</tr>
 									</tbody>
 								</table>

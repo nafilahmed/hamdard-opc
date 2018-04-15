@@ -37,13 +37,22 @@
 
 <section id="doctor-team" class="doctor-team">
 	<div class="container" >
+		<% if (user.category == "patient") { %> 
 		<h1 style="text-align: center;" ><%= user.username %> Your History</h1>
+		<% }else{ %>
+			<h1 style="text-align: center;" >Patient's History</h1>
+		<% } %>
 		<div class="row" align="center" >
 			<% if (locals.pres) { 
 				pres.forEach(function(doc){ %>
 					<div class="col-md-4 col-sm-4" >
-						<p><a href="/prescription?visit=<%= doc.visit %>"><span style="font-size: 100px; color:#A8A8A8; " class="glyphicon glyphicon-file"></span><br>Checkup#<%= doc.visit %></a></p>
-						<br> 
+						<% if (user.category == "patient") { %> 
+							<p><a href="/prescription?visit=<%= doc.visit %>"><span style="font-size: 100px; color:#A8A8A8; " class="glyphicon glyphicon-file"></span><br>Checkup#<%= doc.visit %></a></p>
+							<br> 
+						<% }else{ %>
+							<p><a href="/prescription?visit=<%= doc.visit %>&his=<%= doc.patemail %>"><span style="font-size: 100px; color:#A8A8A8; " class="glyphicon glyphicon-file"></span><br>Checkup#<%= doc.visit %></a></p>
+							<br>
+						<% } %>
 					</div>
 			<% });} %>
 		</div>

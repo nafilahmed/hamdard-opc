@@ -41,7 +41,7 @@
 			    </div>
 			  </div>
 			</nav>
-<div class="container-fluid">
+			<div class="container-fluid">
 				<div class="docchat" >
 					<div class="row">
 						<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
@@ -64,7 +64,8 @@
 						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"  >
 							<div class="cata" id="cata">
 								<a href="/patienthistory"><span class="glyphicon glyphicon-folder-open"></span> Patient History</a>
-								<!-- <br><br><a href="/patienthistory"><span class="glyphicon glyphicon-folder-open"></span> Patient History</a> -->
+								<br><br>
+								<a href="/patienthistory"><span class="glyphicon glyphicon-folder-open"></span> Patient History</a>
 							</div>
 						</div>
 					</div>
@@ -155,7 +156,7 @@
 		io.emit('ready', {"chat_room": ROOM, "signal_room": SIGNAL_ROOM});
 		
 		if (cat == "patient") {		
-			io.emit('patinfo', {"patname": "<%= user.username %>","patid": "<%= user._id %>","patage": patage , "pattemp": pattemp , "patblood1": patblood1 , "patblood1": patblood1 ,"patblood2": patblood2 , "patsugar1": patsugar1 , "patsugar2": patsugar2 ,"patpluse": patpluse ,"patO2": patO2 , "room":ROOM});
+			io.emit('patinfo', {"patname": "<%= user.username %>","patemail": "<%= user.email %>","patage": patage , "pattemp": pattemp , "patblood1": patblood1 ,"patblood2": patblood2 , "patsugar1": patsugar1 , "patsugar2": patsugar2 ,"patpluse": patpluse ,"patO2": patO2 , "room":ROOM});
 		}
 
 		io.on('message', function(data) {

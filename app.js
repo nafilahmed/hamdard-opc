@@ -150,13 +150,13 @@ app.get('/doctorcategory',(req,res)=>{
 	if (req.user) {
 		if (req.user.category == "patient") {
 			if (req.param('patage')) {
-				Prescriptions.find({"patid": req.user._id}).count()
+				Prescriptions.find({"patemail": req.user.email}).count()
 				.then( vesit =>{
 					var d = new Date();
 					var n = d.getTime();
 					const newPrescriptions = new Prescriptions({
 				        time : n,
-				        patid: req.user._id,
+				        patemail: req.user.email,
 				    	patname: req.user.username,
 				    	docemail:"none",
 				    	docname:"none",
@@ -287,11 +287,10 @@ app.get('/pratitionersignup', (req, res) => {
 app.get('/chat', (req, res) => {
 	if (req.user) {
 		if (req.user.category == "patient") {
-			Prescriptions.find({"patid": req.user._id}).count()
+			Prescriptions.find({"patemail": req.user.email}).count()
 			.then( vesit =>{
 				Doctor.findById(req.param('id'), function (err, doc){
-					
-					Prescriptions.findOneAndUpdate({"visit": vesit,"patid": req.user._id},{$set:{docemail:doc.email}})
+					Prescriptions.findOneAndUpdate({"visit": vesit,"patemail": req.user.email},{$set:{docemail:doc.email}})
 					.then(patinfo =>{
 						res.render('chat',{
 							docid: req.param('id'),
@@ -358,7 +357,7 @@ app.get('/docchat', (req, res) => {
 app.get('/prescription', function(req, res){
 	if (req.user) {
 		if (req.user.category == "patient") {		
-			Prescriptions.find({"patid": req.user._id ,"visit" : req.param('visit') })
+			Prescriptions.find({"patemail": req.user.email ,"visit" : req.param('visit') })
 	    	.then( pres =>{
 				res.render('prescription',{
 					pres : pres,
@@ -367,34 +366,65 @@ app.get('/prescription', function(req, res){
 		}else if (req.user.category == "practitioner") {
 			res.redirect('/');
 		}else{
-			if (req.param('test')) {
-				var test = req.param('test');
+			if (req.param('mdnam')) {
+				Prescriptions.updateOne({"docemail": req.user.email, "visit":req.param('visit')},{$set:{
+					mdnam : req.param('mdnam'),
+					medamount : req.param('medamount'),
+					mdtime : req.param('mdtime'),
+					comment : req.param('comment'),
+					test : req.param('test'),
+					docname:req.user.username
+				}})
+				.then(pat =>{
+					Prescriptions.find({"docemail":req.user.email}).sort({_id:-1}).limit(1)
+					.then(patinfo=>{
+						Doctor.findOneAndUpdate({"email":req.user.email},{$inc:{"amount":250}})
+						.then(demo=>{
+							res.render('prescription',{
+								pres : patinfo,
+								doctor:demo
+							});
+						});
+					});						
+				})
+				.catch(err => {
+					console.log(err);
+				});
 			} else {
-				var test = "Not required";
-			}
-			Prescriptions.updateOne({"docemail": req.user.email, "visit":req.param('visit')},{$set:{
-				mdnam : req.param('mdnam'),
-				medamount : req.param('medamount'),
-				mdtime : req.param('mdtime'),
-				comment : req.param('comment'),
-				test : test,
-				docname:req.user.username
-			}})
-			.then(pat =>{
-				Prescriptions.find({"docemail":req.user.email}).sort({_id:-1}).limit(1)
-				.then(patinfo=>{
-					Doctor.findOneAndUpdate({"email":req.user.email},{$inc:{"amount":250}})
-					.then(demo=>{
+				if (req.param('his')) {
+					Prescriptions.find({"patemail": req.param('his') ,"visit" : req.param('visit') })
+			    	.then( pres =>{
 						res.render('prescription',{
-							pres : patinfo,
-							doctor:demo
+							pres : pres,
 						});
 					});
-				});						
-			})
-			.catch(err => {
-				console.log(err);
-			});		
+				}
+			}	
+		}
+	}
+	else{
+		res.render('login',{
+			error : "Login First"
+		});		
+	}
+});
+
+app.post('/patienthistory', (req, res) => {
+	if (req.user) {
+		if (req.user.category == "doctor") {
+			if (req.body.his) {
+				Prescriptions.find({"patemail" : req.body.his})
+				.then(pres => {
+					res.render('patienthistory',{
+						pres : pres,
+						his: req.body.his
+					});
+				});
+			} else {
+				res.redirect('/');	
+			}	
+		}else{
+			res.redirect('/');
 		}
 	}
 	else{
@@ -407,7 +437,7 @@ app.get('/prescription', function(req, res){
 app.get('/patienthistory', (req, res) => {
 	if (req.user) {
 		if (req.user.category == "patient") {
-			Prescriptions.find()
+			Prescriptions.find({"patemail" : req.user.email})
 			.then(pres => {
 				if(pres){
 					res.render('patienthistory',{
@@ -766,7 +796,6 @@ app.io.route('prescription', function(req) {
 app.io.route('patinfo', function(req) {
 	//Note the use of req here for broadcasting so only the sender doesn't receive their own messages
 	req.io.room(req.data.room).broadcast('patinfo', {
-		patid: req.data.patid,
 		patname: req.data.patname,
 		patage: req.data.patage,
 		pattemp: req.data.pattemp,
@@ -776,6 +805,7 @@ app.io.route('patinfo', function(req) {
 		patsugar2: req.data.patsugar2,
 		patpluse: req.data.patpluse,
 		patO2: req.data.patO2,
+		patemail: req.data.patemail,
     });
 });
 

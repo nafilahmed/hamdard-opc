@@ -108,7 +108,6 @@
 								
 								io = io.connect();
 
-								alert('<%= doctor._id %>');
 								io.emit('prescription', {"message":"check your prescription", "room":ROOM});	
 							</script>
 						<% } %>	
